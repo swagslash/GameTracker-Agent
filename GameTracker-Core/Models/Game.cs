@@ -13,6 +13,7 @@ namespace GameTracker_Core.Models
         private string directoryPath { get; set; }
         private string imagePath { get; set; }
 
+
         public Game()
         {
             

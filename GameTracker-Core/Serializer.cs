@@ -12,9 +12,9 @@ namespace GameTracker_Core
         {
             try
             {
-                using (Stream stream = File.Open(filePath, FileMode.Create))
+                using (var stream = File.Open(filePath, FileMode.Create))
                 {
-                    BinaryFormatter bin = new BinaryFormatter();
+                    var bin = new BinaryFormatter();
                     bin.Serialize(stream, objToSerialize);
                 }
             }
@@ -24,20 +24,21 @@ namespace GameTracker_Core
             }
         }
 
-        public static T Load<T>(string filePath) where T : new()
+        public static T Load<T>(string filePath) where T : class, new()
         {
             T rez = new T();
 
             try
             {
-                using (Stream stream = File.Open(filePath, FileMode.Open))
+                using (var stream = File.Open(filePath, FileMode.Open))
                 {
-                    BinaryFormatter bin = new BinaryFormatter();
-                    rez = (T)bin.Deserialize(stream);
+                    var bin = new BinaryFormatter();
+                    rez = bin.Deserialize(stream) as T;
                 }
             }
             catch (IOException)
             {
+                return default(T);
             }
 
             return rez;

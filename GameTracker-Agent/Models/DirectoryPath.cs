@@ -6,7 +6,7 @@ namespace GameTracker_Agent.Models
 {
     class DirectoryPath : INotifyPropertyChanged
     {
-        private String directory;
+        private String _directory;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -14,11 +14,11 @@ namespace GameTracker_Agent.Models
         {
             get
             {
-                return directory;
+                return _directory;
             }
             set
             {
-                this.directory = value;
+                this._directory = value;
                 NotifyPropertyChanged("DirectoryPath");
             }
         }
@@ -29,7 +29,7 @@ namespace GameTracker_Agent.Models
 
         public DirectoryPath()
         {
-            this.directory = "";
+            this._directory = "";
         }
     }
 }

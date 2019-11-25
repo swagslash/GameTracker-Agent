@@ -7,22 +7,23 @@ using System.Windows.Threading;
 
 namespace GameTracker_Agent
 {
-    class BackgroundTimer
+    internal class BackgroundTimer
     {
         private readonly DispatcherTimer Timer;
+        private static readonly int dispatchTime = 3600000; //1h
 
         public BackgroundTimer()
         {
             Timer = new DispatcherTimer
             {
-                Interval = TimeSpan.FromMilliseconds(1000)
+                Interval = TimeSpan.FromMilliseconds(dispatchTime)
             };
         }
         public BackgroundTimer(EventHandler e)
         {
             Timer = new DispatcherTimer
             {
-                Interval = TimeSpan.FromMilliseconds(1000)
+                Interval = TimeSpan.FromMilliseconds(dispatchTime)
             };
 
             Timer.Tick += e;

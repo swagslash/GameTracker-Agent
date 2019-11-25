@@ -1,22 +1,26 @@
 ﻿using GameTracker_Core.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 
 namespace GameTracker_Core
 {
     public class Controller
     {
+        private static readonly string appDataPath = Path.Combine(Environment.GetFolderPath(
+                Environment.SpecialFolder.ApplicationData), "GameTrackerAgent");
+        private static readonly string fileName = "device.bin";
         private Device device { get; set; }
 
         public Controller()
         {
             device = new Device();
-            if (!System.IO.Directory.Exists("C:\\Users\\Pete\\AppData\\Roaming\\GameTrackerAgent"))
+            if (!Directory.Exists(appDataPath))
             {
-                System.IO.Directory.CreateDirectory("C:\\Users\\Pete\\AppData\\Roaming\\GameTrackerAgent");
+                Directory.CreateDirectory(appDataPath);
             }
-            device = Serializer.Load<Device>("C:\\Users\\Pete\\AppData\\Roaming\\GameTrackerAgent\\device.bin");
+            device = Serializer.Load<Device>(Path.Combine(appDataPath,fileName));
         }
 
         public void scanComputer()

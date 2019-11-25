@@ -8,21 +8,25 @@ using System.Windows;
 
 namespace GameTracker_Agent
 {
-    class BackgroundScanner
+    internal class BackgroundScanner
     {
-        private BackgroundWorker Worker;
+        private BackgroundWorker _Worker;
 
         public BackgroundScanner()
         {
-            Worker = new BackgroundWorker();
-            Worker.DoWork += new DoWorkEventHandler
+            _Worker = new BackgroundWorker()
+            {
+                WorkerReportsProgress = true,
+                WorkerSupportsCancellation = true,
+                
+            };
+
+            _Worker.DoWork += new DoWorkEventHandler
                     (Worker_DoWork);
-            Worker.ProgressChanged += new ProgressChangedEventHandler
+            _Worker.ProgressChanged += new ProgressChangedEventHandler
                     (Worker_ProgressChanged);
-            Worker.RunWorkerCompleted += new RunWorkerCompletedEventHandler
+            _Worker.RunWorkerCompleted += new RunWorkerCompletedEventHandler
                     (Worker_RunWorkerCompleted);
-            Worker.WorkerReportsProgress = true;
-            Worker.WorkerSupportsCancellation = true;
 
         }
         public void Worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
@@ -40,9 +44,9 @@ namespace GameTracker_Agent
 
         public void StartWorker(object sender, EventArgs e)
         {
-            if (!Worker.IsBusy)
+            if (!_Worker.IsBusy)
             {
-                Worker.RunWorkerAsync();
+                _Worker.RunWorkerAsync();
             }
         }
     }
