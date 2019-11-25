@@ -9,60 +9,60 @@ namespace GameTracker_Agent
 {
     internal class BackgroundTimer
     {
-        private readonly DispatcherTimer Timer;
-        private static readonly int dispatchTime = 3600000; //1h
+        private readonly DispatcherTimer _Timer;
+        private static readonly int _dispatchTime = 3600000; //1h
 
         public BackgroundTimer()
         {
-            Timer = new DispatcherTimer
+            _Timer = new DispatcherTimer
             {
-                Interval = TimeSpan.FromMilliseconds(dispatchTime)
+                Interval = TimeSpan.FromMilliseconds(_dispatchTime)
             };
         }
         public BackgroundTimer(EventHandler e)
         {
-            Timer = new DispatcherTimer
+            _Timer = new DispatcherTimer
             {
-                Interval = TimeSpan.FromMilliseconds(dispatchTime)
+                Interval = TimeSpan.FromMilliseconds(_dispatchTime)
             };
 
-            Timer.Tick += e;
+            _Timer.Tick += e;
         }
 
         public void Start()
         {
-            if (!Timer.IsEnabled)
+            if (!_Timer.IsEnabled)
             {
-                Timer.Start();
+                _Timer.Start();
             }
         }
 
         public void Stop()
         {
-            if (Timer.IsEnabled)
+            if (_Timer.IsEnabled)
             {
-                Timer.Stop();
+                _Timer.Stop();
             }
         }
 
         public void SetTimeInterval(int time)
         {
-            Timer.Interval = TimeSpan.FromMilliseconds(time);
+            _Timer.Interval = TimeSpan.FromMilliseconds(time);
         }
 
         public int GetTimeInterval()
         {
-            return (int) Timer.Interval.TotalMilliseconds;
+            return (int) _Timer.Interval.TotalMilliseconds;
         }
 
         public void AddEvent(EventHandler e)
         {
-            Timer.Tick += e;
+            _Timer.Tick += e;
         }
 
         public void RemoveEvent(EventHandler e)
         {
-            Timer.Tick -= e;
+            _Timer.Tick -= e;
         }
     }
 }

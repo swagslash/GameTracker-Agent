@@ -5,57 +5,45 @@ using System.Collections.Generic;
 namespace GameTracker_Core.Models
 {
     [Serializable]
+    [JsonObject(MemberSerialization.OptIn)]
     public class GameDirectory
     {
-
-        private string directory { get; set; }
+        [JsonProperty("Directory")]
+        private string _directory;
 
         [JsonProperty("Games")]
-        private List<Game> games;
+        private List<Game> _games;
 
         public GameDirectory()
         {
-            games = new List<Game>();
+            _games = new List<Game>();
         }
 
         public void addGame(Game game)
         {
-            games.Add(game);
+            _games.Add(game);
         }
 
-        public List<Game> GetGames()
+        public IList<Game> GetGames()
         {
-            return games;
+            return _games.AsReadOnly();
         }
 
         public string Directory
         {
             get
             {
-                return directory;
+                return _directory;
             }
             set
             {
-                directory = value;
+                _directory = value;
             }
         }
 
-        public string convertGameDirectoryToJSONString()
+        public void RemoveGame(Game g)
         {
-            //var tags = new { tags = this.games };
-            return JsonConvert.SerializeObject(this, Formatting.Indented);
-        }
-
-        public void convertJSONStringToGameDirectory(string jsonstring)
-        {
-            var obj =(GameDirectory) JsonConvert.DeserializeObject(jsonstring);
-            directory = obj.directory;
-            games = obj.games;
-        }
-
-        public void removeGame(Game g)
-        {
-            games.Remove(g);
+            _games.Remove(g);
         }
     }
 }

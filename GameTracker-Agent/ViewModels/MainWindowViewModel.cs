@@ -91,23 +91,23 @@ namespace GameTracker_Agent
 
         public void OpenDirectory(object obj)
         {
-            var dlg = new CommonOpenFileDialog();
-            dlg.Title = "Choose Directory";
-            dlg.IsFolderPicker = true;
-
-            dlg.AddToMostRecentlyUsedList = false;
-            dlg.AllowNonFileSystemItems = false;
-            dlg.EnsureFileExists = true;
-            dlg.EnsurePathExists = true;
-            dlg.EnsureReadOnly = false;
-            dlg.EnsureValidNames = true;
-            dlg.Multiselect = false;
-            dlg.ShowPlacesList = true;
+            var dlg = new CommonOpenFileDialog()
+            {
+                Title = "Choose Directory",
+                IsFolderPicker = true,
+                AddToMostRecentlyUsedList = false,
+                AllowNonFileSystemItems = false,
+                EnsureFileExists = true,
+                EnsurePathExists = true,
+                EnsureReadOnly = false,
+                EnsureValidNames = true,
+                Multiselect = false,
+                ShowPlacesList = true
+            };
 
             if (dlg.ShowDialog() == CommonFileDialogResult.Ok)
             {
-                var folder = dlg.FileName;
-                DirectoryPath.Directory = folder;
+                DirectoryPath.Directory = dlg.FileName;
             }
         }
 

@@ -7,43 +7,43 @@ namespace GameTracker_Core.Models
     [Serializable]
     public class Device
     {
-        private string token { get; set; }
-        private List<GameDirectory> gameDirectories;
+        private string _token;
+        private List<GameDirectory> _gameDirectories;
 
         public Device()
         {
-            gameDirectories = new List<GameDirectory>();
+            _gameDirectories = new List<GameDirectory>();
         }
 
         public Device(string token) : this()
         {
-            this.token = token;
+            this._token = token;
         }
 
         public string Token
         {
             get
             {
-                return token;
+                return _token;
             }
             set
             {
-                token = value;
+                _token = value;
             }
         }
 
         public void addGameDirectory(GameDirectory gameDirectory)
         {
-            gameDirectories.Add(gameDirectory);
+            _gameDirectories.Add(gameDirectory);
         }
 
-        public List<GameDirectory> GetGameDirectories()
+        public IList<GameDirectory> GetGameDirectories()
         {
-            return gameDirectories;
+            return _gameDirectories.AsReadOnly();
         }
         public bool removeGameDirectory(GameDirectory gameDirectory)
         {
-            return gameDirectories.Remove(gameDirectory);
+            return _gameDirectories.Remove(gameDirectory);
         }
     }
 }

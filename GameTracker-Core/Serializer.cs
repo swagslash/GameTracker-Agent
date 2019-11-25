@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
@@ -42,6 +43,29 @@ namespace GameTracker_Core
             }
 
             return rez;
+        }
+
+        public static string SerializeJson(object objToSerialize)
+        {
+            return JsonConvert.SerializeObject(objToSerialize, Formatting.Indented);
+        }
+
+        public static T DeserializeJson<T>(string json)
+        {
+            var rez = JsonConvert.DeserializeObject<T>(json);
+            if(rez is T)
+            {
+                return (T)rez;
+            }
+            try
+            {
+                return (T)Convert.ChangeType(rez, typeof(T));
+            }
+            catch (InvalidCastException)
+            {
+                return default(T);
+            }
+
         }
     }
 }

@@ -9,9 +9,9 @@ namespace GameTracker_Agent
 {
     public class RelayCommand : ICommand
     {
-        private Action<object> execute;
+        private Action<object> _execute;
 
-        private Predicate<object> canExecute;
+        private Predicate<object> _canExecute;
 
         private event EventHandler CanExecuteChangedInternal;
 
@@ -24,16 +24,16 @@ namespace GameTracker_Agent
         {
             if (execute == null)
             {
-                throw new ArgumentNullException("execute");
+                throw new ArgumentNullException(nameof(execute));
             }
 
             if (canExecute == null)
             {
-                throw new ArgumentNullException("canExecute");
+                throw new ArgumentNullException(nameof(canExecute));
             }
 
-            this.execute = execute;
-            this.canExecute = canExecute;
+            _execute = execute;
+            _canExecute = canExecute;
         }
 
         public event EventHandler CanExecuteChanged
@@ -41,29 +41,29 @@ namespace GameTracker_Agent
             add
             {
                 CommandManager.RequerySuggested += value;
-                this.CanExecuteChangedInternal += value;
+                CanExecuteChangedInternal += value;
             }
 
             remove
             {
                 CommandManager.RequerySuggested -= value;
-                this.CanExecuteChangedInternal -= value;
+                CanExecuteChangedInternal -= value;
             }
         }
 
         public bool CanExecute(object parameter)
         {
-            return this.canExecute != null && this.canExecute(parameter);
+            return _canExecute != null && _canExecute(parameter);
         }
 
         public void Execute(object parameter)
         {
-            this.execute(parameter);
+            _execute(parameter);
         }
 
         public void OnCanExecuteChanged()
         {
-            EventHandler handler = this.CanExecuteChangedInternal;
+            EventHandler handler = CanExecuteChangedInternal;
             if (handler != null)
             {
                 //DispatcherHelper.BeginInvokeOnUIThread(() => handler.Invoke(this, EventArgs.Empty));
@@ -73,8 +73,8 @@ namespace GameTracker_Agent
 
         public void Destroy()
         {
-            this.canExecute = _ => false;
-            this.execute = _ => { return; };
+            _canExecute = _ => false;
+            _execute = _ => { return; };
         }
 
         private static bool DefaultCanExecute(object parameter)

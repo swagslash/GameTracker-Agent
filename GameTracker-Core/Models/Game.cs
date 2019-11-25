@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
@@ -7,11 +8,18 @@ namespace GameTracker_Core.Models
 {
 
     [Serializable]
+    [JsonObject(MemberSerialization.OptIn)]
     public class Game
     {
-        private string name { get; set; }
-        private string directoryPath { get; set; }
-        private string imagePath { get; set; }
+
+        [JsonProperty("Name")]
+        private string _name;
+
+        [JsonProperty("Directory")]
+        private string _directoryPath;
+
+        [JsonProperty("ImageDirectory")]
+        private string _imagePath;
 
 
         public Game()
@@ -21,19 +29,19 @@ namespace GameTracker_Core.Models
 
         public Game(string directoryPath)
         {
-            this.directoryPath = directoryPath;
-            name = directoryPath.Substring(directoryPath.LastIndexOf("\\") + 1);
+            this._directoryPath = directoryPath;
+            _name = Path.GetDirectoryName(directoryPath);
         }
 
         public string Name
         {
             get
             {
-                return name;
+                return _name;
             }
             set
             {
-                name = value;
+                _name = value;
             }
         }
 
@@ -41,11 +49,11 @@ namespace GameTracker_Core.Models
         {
             get
             {
-                return directoryPath;
+                return _directoryPath;
             }
             set
             {
-                directoryPath = value;
+                _directoryPath = value;
             }
         }
 
@@ -53,14 +61,21 @@ namespace GameTracker_Core.Models
         {
             get
             {
-                return imagePath;
+                return _imagePath;
             }
             set
             {
-                imagePath = value;
+                _imagePath = value;
             }
         }
 
+        public override bool Equals(object obj)
+        {
+            if (obj == null) return false;
+            if (!this.GetType().Equals(obj.GetType())) return false;
+            Game g = obj as Game;
+            return g.Name.Equals(this.Name) && g.DirectoryPath.Equals(this.DirectoryPath);
+        }
 
 
     }

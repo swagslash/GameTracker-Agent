@@ -15,20 +15,20 @@ namespace GameTracker_Core
 
         private static bool DirectoryExecuteSearchRecursive(string dir, bool erg)
         {
+            if (erg) return true;
             try
             {
                 foreach (string f in Directory.GetFiles(dir))
                 {
                     if (Path.GetExtension(f).Equals(".exe"))
                     {
-                        //Console.WriteLine(Path.GetFileName(f));
                         return true;
                     }
                 }
                 foreach (string d in Directory.GetDirectories(dir))
                 {
-                    //Console.WriteLine(Path.GetFileName(d));
                     erg = DirectoryExecuteSearchRecursive(d, erg);
+                    if (erg) break;
                 }
             }
             catch (System.Exception ex)
@@ -53,7 +53,7 @@ namespace GameTracker_Core
 
         public static List<Game> GetAllGamesFromPath(string path)
         {
-            if (!Directory.Exists(path)) return null;
+            if (!Directory.Exists(path)) return new List<Game>();
             List<Game> gameList = new List<Game>();
             foreach(string d in Directory.GetDirectories(path))
             {
@@ -67,7 +67,7 @@ namespace GameTracker_Core
 
         public static List<Game> FindNotExistingGames(GameDirectory gameDirectory)
         {
-            if (!Directory.Exists(gameDirectory.Directory)) return null;
+            if (!Directory.Exists(gameDirectory.Directory)) return new List<Game>();
             List<Game> notExistingGameList = new List<Game>();
             foreach(Game g in gameDirectory.GetGames())
             {
