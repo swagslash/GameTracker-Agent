@@ -15,8 +15,8 @@ namespace GameTracker_Agent
     class MainWindowViewModel
     {
 
-        private ICommand _addPathButtonCommand { get; set; }
-        private ICommand _openDirectoryCommand { get; set; }
+        private ICommand _addPathButtonCommand;
+        private ICommand _openDirectoryCommand;
         private bool canExecute = true;
 
         public ObservableCollection<String> PathCollection { get; set; }

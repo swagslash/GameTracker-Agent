@@ -41,10 +41,10 @@ namespace GameTracker_Core
                 //If success add the new games and save it
                 foreach(Game g in newGames)
                 {
-                    string Directorypath = g.DirectoryPath.Remove(g.DirectoryPath.LastIndexOf("\\"));
+                    var Directorypath = g.DirectoryPath.Remove(g.DirectoryPath.LastIndexOf("\\"));
                     foreach (GameDirectory gd in _device.GetGameDirectories())
                     {
-                        if (gd.Directory.Equals(Directorypath))
+                        if (gd.Directory==Directorypath)
                         {
                             gd.addGame(g);
                         }
@@ -56,10 +56,10 @@ namespace GameTracker_Core
                 //If success remove the removed games and save it
                 foreach (Game g in removedGames)
                 {
-                    string Directorypath = g.DirectoryPath.Remove(g.DirectoryPath.LastIndexOf("\\"));
+                    var Directorypath = g.DirectoryPath.Remove(g.DirectoryPath.LastIndexOf("\\"));
                     foreach (GameDirectory gd in _device.GetGameDirectories())
                     {
-                        if (gd.Directory.Equals(Directorypath))
+                        if (gd.Directory==Directorypath)
                         {
                             gd.RemoveGame(g);
                         }
