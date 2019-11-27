@@ -12,8 +12,6 @@ namespace GameTracker_Core
         private static readonly string fileName = "device.bin";
         private Device _device;
 
-
-
         public Controller()
         {
             _device = new Device();

@@ -1,0 +1,14 @@
+language: csharp
+solution: GameTracker-Agent
+before_install:
+  - sudo apt-get install nunit-console
+before_script:
+  - nuget restore GameTracker-Agent.sln
+addons:
+  sonarcloud:
+    organization: "swagslash-studios"
+    token:
+      secure: "ZE7dYtH+stxxLwlEk0joY/54lecY7c4neGamQfqbJyPIMS3isgNhg7cio6mmRIPuIbbPRHFe7Xgvpv1eZnKvqpo+8i5AbO8y6ruJhpP1I2fKXTI7C8LvtLP/IMIwZZ6o6tnQeGDRBkIKaFWtHyrKCQpweKWx0PoxvztpT/OYud3l3cH6Fw4VYpCUSPZCBshxAw1cv5qKW/nuaD6tZ9N1gGiyzSKmHmgw3I5J0V5rPyw81Q1hNkzxvF+s8snC5OAfuaSAkMygdgGsD5YIn3hRfBMrM4t3kqo0iIcvNphsQTCQ6ni5KlhUiLEuCgp6WEaBhdpsUadbOcVViObwHHR/hK4OgqwR78k3BuXiPm9mfKIBWMPF4++2+3FoigGvUalphZ1kaKNxqm1FsvD8G8i1YGP1ipFZ49KtXOhlmE+tRIX0FyIOL69/BBeNso6AY8zQrW00PpiTAu/s2KHFOhXSJdo/mL+QTWGacud3b9sxG+s3JJa3kXQXyfmrflI7gG7o7yQRCMFWymWQeimJXoGBbyylNv+SDXyBiGoXWp3mUBtQ2jbNgraBBdON2gYUWY6G/KGs5eQbNKmfYEQT66zDB3rAmCw/f5sXYu69WVqJTtLXPONd5bchFplKVVJ4ghSQeVsqejiUZQ5lCQqRoTKRarSg8rTMlQxuOrd9619fkLk="
+
+script:
+  - dotnet restore
