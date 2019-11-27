@@ -67,7 +67,6 @@ namespace GameTracker_Core
 
         public static List<Game> FindNotExistingGames(GameDirectory gameDirectory)
         {
-            if (!Directory.Exists(gameDirectory.Directory)) return new List<Game>();
             List<Game> notExistingGameList = new List<Game>();
             foreach(Game g in gameDirectory.GetGames())
             {
