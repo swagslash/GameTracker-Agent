@@ -1,6 +1,7 @@
 language: csharp
 solution: GameTracker-Agent.sln
 mono: none
+dotnet: 3.0.0
 script:
     - dotnet restore
 addons:
