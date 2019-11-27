@@ -1,9 +1,12 @@
 language: csharp
-solution: GameTracker-Agent.sln
-mono: none
-dotnet: 3.0.0
+install:
+  - nuget restore GameTracker-Core.csproj
+  - nuget restore GameTrackerTest.csproj
+  - nuget install NUnit.Console -Version 3.9.0 -OutputDirectory testrunner
 script:
-    - dotnet restore
+  - msbuild /p:Configuration=Release GameTracker-Core.csproj
+  - msbuild /p:Configuration=Release GameTrackerTest.csproj
+  - mono ./testrunner/NUnit.ConsoleRunner.3.9.0/tools/nunit3-console.exe ./GameTrackerTest/bin/Release/netcoreapp3.0/GameTrackerTest.dll
 addons:
   sonarcloud:
     organization: "swagslash-studios"
