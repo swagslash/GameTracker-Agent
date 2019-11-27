@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Text;
 
 namespace GameTracker_Core
 {
@@ -11,11 +10,13 @@ namespace GameTracker_Core
         private static readonly string appDataPath = Path.Combine(Environment.GetFolderPath(
                 Environment.SpecialFolder.ApplicationData), "GameTrackerAgent");
         private static readonly string fileName = "device.bin";
-        private Device _device { get; set; }
+        private Device _device;
+
+
 
         public Controller()
         {
-            _device = new Device();  
+            _device = new Device();
             Directory.CreateDirectory(appDataPath);
             if (Directory.Exists(Path.Combine(appDataPath, fileName)))
             {
@@ -27,58 +28,55 @@ namespace GameTracker_Core
         {
             //Find new or removed Games
             var gameDirectories = _device.GetGameDirectories();
-            List<Game> removedGames = new List<Game>();
-            List<Game> newGames = new List<Game>();
             foreach(GameDirectory gameDirectory in gameDirectories)
             {
-                removedGames.AddRange(DirectorySearchHelper.FindNotExistingGames(gameDirectory));
-                newGames.AddRange(DirectorySearchHelper.FindNewGames(gameDirectory));
+                var newGames = DirectorySearchHelper.FindNewGames(gameDirectory);
+                if(newGames.Count > 0)
+                {
+                    gameDirectory.AddGames(newGames);
+                }
+
+                var removedGames = DirectorySearchHelper.FindNotExistingGames(gameDirectory);
+                if (removedGames.Count > 0)
+                {
+                    gameDirectory.RemoveGames(removedGames);
+                }
             }
 
             //Send them to Backend
-            if (SendNewGames(newGames))
-            {
-                //If success add the new games and save it
-                foreach(Game g in newGames)
-                {
-                    var Directorypath = g.DirectoryPath.Remove(g.DirectoryPath.LastIndexOf("\\"));
-                    foreach (GameDirectory gd in _device.GetGameDirectories())
-                    {
-                        if (gd.Directory==Directorypath)
-                        {
-                            gd.addGame(g);
-                        }
-                    }
-                }
-            }
-            if (SendRemovedGames(removedGames))
-            {
-                //If success remove the removed games and save it
-                foreach (Game g in removedGames)
-                {
-                    var Directorypath = g.DirectoryPath.Remove(g.DirectoryPath.LastIndexOf("\\"));
-                    foreach (GameDirectory gd in _device.GetGameDirectories())
-                    {
-                        if (gd.Directory==Directorypath)
-                        {
-                            gd.RemoveGame(g);
-                        }
-                    }
-                }
-            }
-
-
-
+            SendGames();
         }
 
-        public bool SendNewGames(List<Game> games)
+        private void SendGames()
         {
-            return false;
+            IList<Game> games = _device.GetAllGames();
+            var json = Serializer.SerializeJson<IList<Game>>(games);
+            //send
         }
 
-        public bool SendRemovedGames(List<Game> games)
+        public void addGameDirectory(string path)
         {
-            return false;
+            _device.addGameDirectory(new GameDirectory(path));
+        }
+
+        public void removeGameDirectory(GameDirectory gameDirectory)
+        {
+            _device.removeGameDirectory(gameDirectory);
+        }
+
+        public IList<GameDirectory> GetGameDirectories()
+        {
+            return _device.GetGameDirectories();
+        }
+
+        public string GetToken()
+        {
+            return _device.Token;
+        }
+
+        public void SetToken(string token)
+        {
+            _device.Token = token;
         }
     }
 }

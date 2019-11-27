@@ -9,61 +9,57 @@ namespace GameTracker_Core
 {
     public static class Serializer
     {
-        public static void Save(string filePath, object objToSerialize)
+        public static bool Save<T>(string filePath, T objToSerialize)
         {
             try
             {
-                using (var stream = File.Open(filePath, FileMode.Create))
-                {
-                    var bin = new BinaryFormatter();
-                    bin.Serialize(stream, objToSerialize);
-                }
+                var jsonString = SerializeJson(objToSerialize);
+                if (string.IsNullOrEmpty(jsonString)) return false;
+
+                File.WriteAllText(filePath, jsonString);
+                return true;
             }
-            catch (IOException)
+            catch
             {
-                Console.WriteLine("path error");
+                return false;
             }
         }
 
         public static T Load<T>(string filePath) where T : class, new()
         {
-            T rez = new T();
-
             try
             {
-                using (var stream = File.Open(filePath, FileMode.Open))
-                {
-                    var bin = new BinaryFormatter();
-                    rez = bin.Deserialize(stream) as T;
-                }
+                var jsonString = File.ReadAllText(filePath);
+                return DeserializeJson<T>(jsonString);
             }
             catch (IOException)
             {
-                return default(T);
+                return new T();
             }
-
-            return rez;
         }
 
-        public static string SerializeJson(object objToSerialize)
+        public static string SerializeJson<T>(T objToSerialize)
         {
-            return JsonConvert.SerializeObject(objToSerialize, Formatting.Indented);
-        }
-
-        public static T DeserializeJson<T>(string json)
-        {
-            var rez = JsonConvert.DeserializeObject<T>(json);
-            if(rez is T)
-            {
-                return (T)rez;
-            }
             try
             {
-                return (T)Convert.ChangeType(rez, typeof(T));
+                return JsonConvert.SerializeObject(objToSerialize, Formatting.Indented);
+            }
+            catch
+            {
+                return null;
+            }
+            
+        }
+
+        public static T DeserializeJson<T>(string json) where T: class
+        {
+            try
+            {
+                return JsonConvert.DeserializeObject<T>(json);
             }
             catch (InvalidCastException)
             {
-                return default(T);
+                return null;
             }
 
         }
