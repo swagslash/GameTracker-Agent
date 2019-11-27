@@ -1,9 +1,8 @@
 language: csharp
 solution: GameTracker-Agent.sln
-before_install:
-  - sudo apt-get install nunit-console
-before_script:
-  - nuget restore GameTracker-Agent.sln
+mono: none
+script:
+    - dotnet restore
 addons:
   sonarcloud:
     organization: "swagslash-studios"
