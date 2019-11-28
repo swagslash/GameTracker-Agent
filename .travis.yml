@@ -1,7 +1,6 @@
 sudo: required
 language: csharp
 dotnet: 3.0.100
-mono: none
 
 install:
   - sudo apt-get install -qq dotnet-sdk-2.0.0
