@@ -1,13 +1,13 @@
 language: csharp
 dist: trusty
 install:
-  - nuget restore GameTracker-Core.csproj
-  - nuget restore GameTrackerTest.csproj
+  - nuget restore GameTracker-Core/GameTracker-Core.csproj
+  - nuget restore GameTrackerTest/GameTrackerTest.csproj
   - nuget install NUnit.Console -Version 3.9.0 -OutputDirectory testrunner
 script:
 - sonar-scanner
-  - msbuild /p:Configuration=Release GameTracker-Core.csproj
-  - msbuild /p:Configuration=Release GameTrackerTest.csproj
+  - msbuild /p:Configuration=Release GameTracker-Core/GameTracker-Core.csproj
+  - msbuild /p:Configuration=Release GameTrackerTest/GameTrackerTest.csproj
   - mono ./testrunner/NUnit.ConsoleRunner.3.9.0/tools/nunit3-console.exe ./GameTrackerTest/bin/Release/netcoreapp3.0/GameTrackerTest.dll
 addons:
   sonarcloud:
