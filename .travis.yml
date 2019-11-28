@@ -9,13 +9,7 @@ install:
   - nuget install NUnit.Console -Version 3.9.0 -OutputDirectory testrunner
   
 script:
-- sonar-scanner
   - msbuild /p:Configuration=Release GameTracker-Core/GameTracker-Core.csproj
   - msbuild /p:Configuration=Release GameTrackerTest/GameTrackerTest.csproj
   - mono ./testrunner/NUnit.ConsoleRunner.3.9.0/tools/nunit3-console.exe ./GameTrackerTest/bin/Release/netcoreapp3.0/GameTrackerTest.dll
-  
-addons:
-  sonarcloud:
-    organization: "swagslash-studios"
-    token:
-        secure: "174e26275f5ea806467ac75a94472140661be4d3"
+
