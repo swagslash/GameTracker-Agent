@@ -73,6 +73,7 @@ namespace GameTracker_Agent
             }
         }
 
+
         public MainWindowViewModel()
         {
             AddDirectoryCommand = new RelayCommand(AddDirectory);
@@ -136,10 +137,11 @@ namespace GameTracker_Agent
 
             App.Current.Dispatcher.Invoke((Action)delegate
             {
+                var directory = selectedDirectory.Directory;
                 GameDirectories.Clear();
                 AddChanges(newGameDirectories);
-                SelectedDirectory = GameDirectories[0];
-                //SelectedDirectory = GameDirectories.Where(x => x.Directory == SelectedDirectory.Directory).First();
+                //SelectedDirectory = GameDirectories[0];
+                SelectedDirectory = GameDirectories.Where(x => x.Directory == directory).FirstOrDefault();
             });
             //MessageBox.Show("test");
         }
@@ -157,5 +159,6 @@ namespace GameTracker_Agent
             timer.Stop();
             Application.Current.Shutdown();
         }
+
     }
 }

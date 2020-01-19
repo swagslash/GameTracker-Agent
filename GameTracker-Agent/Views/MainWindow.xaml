@@ -80,9 +80,12 @@
         <tb:TaskbarIcon>
             <tb:TaskbarIcon.ContextMenu>
                 <ContextMenu>
+                    <MenuItem Click="OpenProgram" 
+                    Header="Open" />
                     <MenuItem Command="{Binding ExitProgramCommand}" 
                     Header="Exit" />
                 </ContextMenu>
+                
             </tb:TaskbarIcon.ContextMenu>
         </tb:TaskbarIcon>
     </Grid>

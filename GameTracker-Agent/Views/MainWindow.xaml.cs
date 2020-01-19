@@ -37,5 +37,11 @@ namespace GameTracker_Agent
         {
             Application.Current.Shutdown();
         }
+
+        private void OpenProgram(object sender, RoutedEventArgs e)
+        {
+            WindowState = WindowState.Normal;
+            ShowInTaskbar = true;
+        }
     }
 }
