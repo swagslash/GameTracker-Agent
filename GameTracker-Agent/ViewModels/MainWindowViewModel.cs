@@ -9,87 +9,73 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using GameTracker_Core.Models;
+using GameTracker_Core;
+using System.IO;
+using GameTracker_Agent.ViewModels;
+using System.Windows.Data;
 
 namespace GameTracker_Agent
 {
-    class MainWindowViewModel
+    class MainWindowViewModel : BaseVM
     {
+        private static readonly string GAMETRACKERPATH = Path.Combine(Environment.GetFolderPath(
+                   Environment.SpecialFolder.ApplicationData), "GameTrackerAgent");
 
-        private ICommand _addPathButtonCommand;
-        private ICommand _openDirectoryCommand;
-        private bool canExecute = true;
+        private ICommand _addDirectoryCommand;
 
-        public ObservableCollection<String> PathCollection { get; set; }
-        public DirectoryPath DirectoryPath { get; set; }
+        private Controller controller;
 
-        public string AddPathButtonContent
+        public ObservableCollection<GameDirectoryDto> GameDirectories { get; set; }
+
+        private GameDirectoryDto selectedDirectory;
+        private object _gameDirectoryLock;
+
+        public GameDirectoryDto SelectedDirectory
         {
-            get
-            {
-                return Properties.Resources.ADD_PATH;
-            }
+            get { return selectedDirectory; }
+            set { selectedDirectory = value; RaisePropertyChanged(); }
         }
 
 
-        public bool CanExecute
+        public string AddDirectoryContent
         {
             get
             {
-                return this.canExecute;
-            }
-
-            set
-            {
-                if (this.canExecute == value)
-                {
-                    return;
-                }
-
-                this.canExecute = value;
+                return Properties.Resources.ADD_DIRECTORY;
             }
         }
 
-        public ICommand AddPathButtonCommand
+        public ICommand AddDirectoryCommand
         {
             get
             {
-                return _addPathButtonCommand;
+                return _addDirectoryCommand;
             }
             set
             {
-                _addPathButtonCommand = value;
-            }
-        }
-
-        public ICommand OpenDirectoryCommand
-        {
-            get
-            {
-                return _openDirectoryCommand;
-            }
-            set
-            {
-                _openDirectoryCommand = value;
+                _addDirectoryCommand = value;
             }
         }
 
         public MainWindowViewModel()
         {
-            AddPathButtonCommand = new RelayCommand(AddPathToListbox);
-            OpenDirectoryCommand = new RelayCommand(OpenDirectory);
-            this.PathCollection = new ObservableCollection<String>();
-            this.DirectoryPath = new DirectoryPath();
-        }
-
-        public void AddPathToListbox(object obj)
-        {
-            PathCollection.Add(DirectoryPath.Directory);
-            BackgroundScanner backgroundScanner = new BackgroundScanner();
+            AddDirectoryCommand = new RelayCommand(AddDirectory);
+            controller = new Controller();
+            controller.addGameDirectory(@"D:\Blizzard");
+            controller.addGameDirectory(@"D:\Origin");
+            controller.addGameDirectory(@"D:\GameTest");
+            GameDirectories = fillGameDirectories(controller.GetGameDirectories());
+            SelectedDirectory = GameDirectories[0];
+            _gameDirectoryLock = new object();
+            BindingOperations.EnableCollectionSynchronization(GameDirectories, _gameDirectoryLock);
+            //MessageBox.Show(GameDirectories[0].Games.Count + " ");
+            BackgroundScanner backgroundScanner = new BackgroundScanner(scanComputer);
             BackgroundTimer backgroundTimer = new BackgroundTimer(backgroundScanner.StartWorker);
-            //backgroundTimer.Start();
+            backgroundTimer.Start();
         }
 
-        public void OpenDirectory(object obj)
+        public void AddDirectory(object obj)
         {
             var dlg = new CommonOpenFileDialog()
             {
@@ -107,9 +93,34 @@ namespace GameTracker_Agent
 
             if (dlg.ShowDialog() == CommonFileDialogResult.Ok)
             {
-                DirectoryPath.Directory = dlg.FileName;
+                controller.addGameDirectory(dlg.FileName);
+                var gameDirectory = controller.GetGameDirectory(dlg.FileName);
+                GameDirectories.Add(new GameDirectoryDto(gameDirectory.Directory, gameDirectory.GetGames()));
+                //RaisePropertyChanged();
+                //MessageBox.Show(gameDirectory.Directory);
             }
         }
 
+        private ObservableCollection<GameDirectoryDto> fillGameDirectories(IList<GameDirectory> gameDirectories)
+        {
+            var directories = new ObservableCollection<GameDirectoryDto>();
+            foreach (GameDirectory directory in gameDirectories)
+            {
+                var gameDirectoryDto = new GameDirectoryDto(directory.Directory, directory.GetGames());
+                directories.Add(gameDirectoryDto);
+            }
+            return directories;
+        }
+
+        private void scanComputer()
+        {
+            controller.ScanComputer();
+            lock (_gameDirectoryLock)
+            {
+                GameDirectories.Clear();
+                GameDirectories = fillGameDirectories(controller.GetGameDirectories());
+            }
+            //MessageBox.Show("test");
+        }
     }
 }

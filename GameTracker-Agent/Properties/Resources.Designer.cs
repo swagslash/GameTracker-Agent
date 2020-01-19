@@ -61,11 +61,11 @@ namespace GameTracker_Agent.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Add Path.
+        ///   Looks up a localized string similar to Add Directory.
         /// </summary>
-        internal static string ADD_PATH {
+        internal static string ADD_DIRECTORY {
             get {
-                return ResourceManager.GetString("ADD_PATH", resourceCulture);
+                return ResourceManager.GetString("ADD_DIRECTORY", resourceCulture);
             }
         }
     }

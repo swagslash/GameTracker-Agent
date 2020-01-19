@@ -24,5 +24,18 @@ namespace GameTracker_Agent
         {
             InitializeComponent();
         }
+
+        // add handler by double clicking on Closing event in Properties Box
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            e.Cancel = true;
+            WindowState = WindowState.Minimized;
+            ShowInTaskbar = false;
+        }
+
+        private void Exit_Program(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Shutdown();
+        }
     }
 }
