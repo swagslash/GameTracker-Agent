@@ -43,7 +43,7 @@
             <!--<TextBox Grid.Column="1" HorizontalAlignment="Stretch" TextWrapping="Wrap"  VerticalAlignment="Center" 
                      Text="{Binding DirectoryPath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
             -->
-            <ComboBox Grid.Column="1" Name="cmbGameDirectories" ItemsSource="{Binding GameDirectories}" SelectedItem="{Binding SelectedDirectory}" Margin="0,4">
+            <ComboBox Grid.Column="1" Name="cmbGameDirectories" ItemsSource="{Binding GameDirectories}" SelectedItem="{Binding SelectedDirectory, Mode=TwoWay}" Margin="0,4">
 
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
@@ -80,7 +80,7 @@
         <tb:TaskbarIcon>
             <tb:TaskbarIcon.ContextMenu>
                 <ContextMenu>
-                    <MenuItem Click="Exit_Program" 
+                    <MenuItem Command="{Binding ExitProgramCommand}" 
                     Header="Exit" />
                 </ContextMenu>
             </tb:TaskbarIcon.ContextMenu>

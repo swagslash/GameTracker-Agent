@@ -23,13 +23,16 @@ namespace GameTracker_Agent
                    Environment.SpecialFolder.ApplicationData), "GameTrackerAgent");
 
         private ICommand _addDirectoryCommand;
+        private ICommand _exitProgramCommand;
 
         private Controller controller;
 
         public ObservableCollection<GameDirectoryDto> GameDirectories { get; set; }
 
         private GameDirectoryDto selectedDirectory;
-        private object _gameDirectoryLock;
+
+        private BackgroundScanner scanner;
+        private BackgroundTimer timer;
 
         public GameDirectoryDto SelectedDirectory
         {
@@ -58,21 +61,34 @@ namespace GameTracker_Agent
             }
         }
 
+        public ICommand ExitProgramCommand
+        {
+            get
+            {
+                return _exitProgramCommand;
+            }
+            set
+            {
+                _exitProgramCommand = value;
+            }
+        }
+
         public MainWindowViewModel()
         {
             AddDirectoryCommand = new RelayCommand(AddDirectory);
+            ExitProgramCommand = new RelayCommand(ExitProgram);
             controller = new Controller();
             controller.addGameDirectory(@"D:\Blizzard");
             controller.addGameDirectory(@"D:\Origin");
             controller.addGameDirectory(@"D:\GameTest");
             GameDirectories = fillGameDirectories(controller.GetGameDirectories());
             SelectedDirectory = GameDirectories[0];
-            _gameDirectoryLock = new object();
-            BindingOperations.EnableCollectionSynchronization(GameDirectories, _gameDirectoryLock);
+            //_gameDirectoryLock = new object();
+            //BindingOperations.EnableCollectionSynchronization(GameDirectories, _gameDirectoryLock);
             //MessageBox.Show(GameDirectories[0].Games.Count + " ");
-            BackgroundScanner backgroundScanner = new BackgroundScanner(scanComputer);
-            BackgroundTimer backgroundTimer = new BackgroundTimer(backgroundScanner.StartWorker);
-            backgroundTimer.Start();
+            scanner = new BackgroundScanner(scanComputer);
+            timer = new BackgroundTimer(scanner.StartWorker);
+            timer.Start();
         }
 
         public void AddDirectory(object obj)
@@ -115,12 +131,31 @@ namespace GameTracker_Agent
         private void scanComputer()
         {
             controller.ScanComputer();
-            lock (_gameDirectoryLock)
+            
+            var newGameDirectories = fillGameDirectories(controller.GetGameDirectories());
+
+            App.Current.Dispatcher.Invoke((Action)delegate
             {
                 GameDirectories.Clear();
-                GameDirectories = fillGameDirectories(controller.GetGameDirectories());
-            }
+                AddChanges(newGameDirectories);
+                SelectedDirectory = GameDirectories[0];
+                //SelectedDirectory = GameDirectories.Where(x => x.Directory == SelectedDirectory.Directory).First();
+            });
             //MessageBox.Show("test");
+        }
+
+        private void AddChanges(ObservableCollection<GameDirectoryDto> changes)
+        {
+            foreach (GameDirectoryDto gameDirectoryDto in changes)
+            {
+                GameDirectories.Add(gameDirectoryDto);
+            }
+        }
+
+        public void ExitProgram(object obj)
+        {
+            timer.Stop();
+            Application.Current.Shutdown();
         }
     }
 }

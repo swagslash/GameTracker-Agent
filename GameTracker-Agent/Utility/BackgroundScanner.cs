@@ -30,7 +30,16 @@ namespace GameTracker_Agent
 
         public void Worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-
+            if (e.Error != null)
+            {
+                var error = e.Error;
+                // weiteres ggf. über InnerException
+                Console.WriteLine("Completed with Error: '{0}'", error.Message);
+            }
+            else if (e.Result != null)
+            {
+                Console.WriteLine("Completed with Result: {0}", e.Result);
+            }
         }
         public void Worker_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {

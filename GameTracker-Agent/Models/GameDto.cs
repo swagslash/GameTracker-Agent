@@ -25,5 +25,19 @@ namespace GameTracker_Agent.Models
             Name = name;
         }
 
+        public override bool Equals(object obj)
+        {
+            return obj is GameDto dto &&
+                   Name == dto.Name &&
+                   DirectoryPath == dto.DirectoryPath;
+        }
+
+        public override int GetHashCode()
+        {
+            var hashCode = -199040267;
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Name);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(DirectoryPath);
+            return hashCode;
+        }
     }
 }
