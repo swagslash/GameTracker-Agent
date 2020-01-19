@@ -1,0 +1,13 @@
+sudo: required
+language: csharp
+dotnet: 3.0.100
+
+install:
+  - sudo apt-get install -qq dotnet-sdk-2.0.0
+  - nuget restore GameTracker-Core/GameTracker-Core.csproj
+  - nuget restore GameTrackerTest/GameTrackerTest.csproj
+  
+script:
+  - msbuild /p:Configuration=Release GameTracker-Core/GameTracker-Core.csproj
+  - msbuild /p:Configuration=Release GameTrackerTest/GameTrackerTest.csproj
+  - dotnet test GameTrackerTest/GameTrackerTest.csproj
