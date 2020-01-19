@@ -24,6 +24,7 @@ namespace GameTracker_Agent
 
         private ICommand _addDirectoryCommand;
         private ICommand _exitProgramCommand;
+        private ICommand _optionCommand;
 
         private Controller controller;
 
@@ -49,6 +50,14 @@ namespace GameTracker_Agent
             }
         }
 
+        public string OptionContent
+        {
+            get
+            {
+                return Properties.Resources.OPTION;
+            }
+        }
+
         public ICommand AddDirectoryCommand
         {
             get
@@ -58,6 +67,18 @@ namespace GameTracker_Agent
             set
             {
                 _addDirectoryCommand = value;
+            }
+        }
+
+        public ICommand OptionCommand
+        {
+            get
+            {
+                return _optionCommand;
+            }
+            set
+            {
+                _optionCommand = value;
             }
         }
 
@@ -78,6 +99,7 @@ namespace GameTracker_Agent
         {
             AddDirectoryCommand = new RelayCommand(AddDirectory);
             ExitProgramCommand = new RelayCommand(ExitProgram);
+            OptionCommand = new RelayCommand(OpenOptions);
             controller = new Controller();
             controller.addGameDirectory(@"D:\Blizzard");
             controller.addGameDirectory(@"D:\Origin");
@@ -158,6 +180,12 @@ namespace GameTracker_Agent
         {
             timer.Stop();
             Application.Current.Shutdown();
+        }
+
+        public void OpenOptions(object obj)
+        {
+            //toDo
+            Console.WriteLine("openOptions");
         }
 
     }

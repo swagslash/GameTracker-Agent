@@ -68,5 +68,14 @@ namespace GameTracker_Agent.Properties {
                 return ResourceManager.GetString("ADD_DIRECTORY", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Options.
+        /// </summary>
+        internal static string OPTION {
+            get {
+                return ResourceManager.GetString("OPTION", resourceCulture);
+            }
+        }
     }
 }

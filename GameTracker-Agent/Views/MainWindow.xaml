@@ -7,11 +7,13 @@
         Background="{DynamicResource MaterialDesignPaper}"
         TextElement.FontWeight="Medium"
         TextElement.FontSize="14"
+        Icon="{StaticResource slash}"
         FontFamily="pack://application:,,,/MaterialDesignThemes.Wpf;component/Resources/Roboto/#Roboto"
         xmlns:local="clr-namespace:GameTracker_Agent"
         mc:Ignorable="d"
+        ResizeMode="NoResize"
         xmlns:tb="http://www.hardcodet.net/taskbar"
-        Title="MainWindow" Height="450" Width="800" Closing="Window_Closing">
+        Title="GameTrackerAgent" Height="450" Width="800" Closing="Window_Closing">
 
     <Window.DataContext>
         <local:MainWindowViewModel />
@@ -31,14 +33,14 @@
         </Grid.RowDefinitions>
         <Grid Grid.ColumnSpan="2">
             <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="5*"/>
+                <ColumnDefinition Width="480*"/>
                 <ColumnDefinition Width="35*"/>
-                <ColumnDefinition Width="482*"/>
+                <ColumnDefinition Width="135*"/>
                 <ColumnDefinition Width="35*"/>
-                <ColumnDefinition Width="34*"/>
-                <ColumnDefinition Width="34*"/>
-                <ColumnDefinition Width="138*"/>
-                <ColumnDefinition Width="22*"/>
-                <ColumnDefinition Width="12*"/>
+                <ColumnDefinition Width="135*"/>
+                <ColumnDefinition Width="35*"/>
+                <ColumnDefinition Width="5*"/>
             </Grid.ColumnDefinitions>
             <!--<TextBox Grid.Column="1" HorizontalAlignment="Stretch" TextWrapping="Wrap"  VerticalAlignment="Center" 
                      Text="{Binding DirectoryPath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
@@ -58,12 +60,13 @@
             <!--<Button Grid.Column="3" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch"
                     Command="{Binding OpenDirectoryCommand}"/>
             -->
-            <Button Content="{Binding AddDirectoryContent}" Grid.Column="5" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch"
+            <Button Content="{Binding AddDirectoryContent}" Grid.Column="3" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch"
                     Command="{Binding AddDirectoryCommand}" Margin="0,3">
             </Button>
 
-
-
+            <Button Content="{Binding OptionContent}" Grid.Column="5" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch"
+                    Command="{Binding OptionCommand}" Margin="0,3">
+            </Button>
         </Grid>
         <DataGridCellsPanel Grid.Row="1" Background="Orange" Grid.ColumnSpan="2"/>
         <!--<ListBox HorizontalAlignment="Stretch" Grid.Row="2" VerticalAlignment="Stretch"
@@ -71,13 +74,13 @@
         <ListView Name="GameDirectory" ItemsSource="{Binding SelectedDirectory.Games}" Grid.Row="2" Grid.ColumnSpan="2">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="Name" Width="120" DisplayMemberBinding="{Binding Name}" />
-                    <GridViewColumn Header="Path" Width="120" DisplayMemberBinding="{Binding DirectoryPath}" />
+                    <GridViewColumn Header="Name" Width="auto" DisplayMemberBinding="{Binding Name}" />
+                    <GridViewColumn Header="Path" Width="auto" DisplayMemberBinding="{Binding DirectoryPath}" />
                 </GridView>
             </ListView.View>
         </ListView>
         <DataGridCellsPanel Grid.Row="3" Background="Orange" Grid.ColumnSpan="2"/>
-        <tb:TaskbarIcon>
+        <tb:TaskbarIcon IconSource="{StaticResource slash}">
             <tb:TaskbarIcon.ContextMenu>
                 <ContextMenu>
                     <MenuItem Click="OpenProgram" 
