@@ -42,21 +42,28 @@ namespace GameTracker_Core
                     gameDirectory.RemoveGames(removedGames);
                 }
             }
-
-            //Send them to Backend
-            SendGames();
         }
 
-        private void SendGames()
+        public void SendGames()
         {
-            IList<Game> games = _device.GetAllGames();
-            var gameDtos = ConvertGameIListToGameDtoList(games);
-            var json = Serializer.SerializeJson<List<GameDto>>(gameDtos);
-            var response = WebApiClient.PostToServer(json);
-            //send
-            if (response.IsSuccessStatusCode)
+            if(_device.Token != null)
             {
-                Console.WriteLine("success");
+                IList<Game> games = _device.GetAllGames();
+                var gameDtos = ConvertGameIListToGameDtoList(games);
+                var json = Serializer.SerializeJson<List<GameDto>>(gameDtos);
+                try
+                {
+                    var response = WebApiClient.PostGamesToServer(json, _device.Token);
+                    //send
+                    if (response.IsSuccessStatusCode)
+                    {
+                        Console.WriteLine("success");
+                    }
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("SendGames Error: {0}", e);
+                }
             }
         }
 

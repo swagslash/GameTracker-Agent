@@ -12,6 +12,8 @@ namespace GameTrackerConsole
             Controller c = new Controller();
             c.addGameDirectory(@"D:\Blizzard");
             c.ScanComputer();
+            c.SetToken("b9eebd97-6244-488a-88a8-1592de03cad7");
+            c.SendGames();
         }
     }
 }

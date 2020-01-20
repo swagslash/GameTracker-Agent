@@ -5,6 +5,9 @@ using System.Text;
 
 namespace GameTracker_Core.Models.Dto
 {
+
+    [Serializable]
+    [JsonObject(MemberSerialization.OptIn)]
     class GameDto
     {
         [JsonProperty("Name")]
