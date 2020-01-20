@@ -3,10 +3,44 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:GameTracker_Agent.Views"
+        xmlns:local="clr-namespace:GameTracker_Agent.ViewModels"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        Background="{DynamicResource MaterialDesignPaper}"
+        TextElement.FontWeight="Medium"
+        TextElement.FontSize="14"
+        Icon="{StaticResource slash}"
+        FontFamily="pack://application:,,,/MaterialDesignThemes.Wpf;component/Resources/Roboto/#Roboto"
         mc:Ignorable="d"
-        Title="OptionWindow" Height="450" Width="800">
-    <Grid>
+        ResizeMode="NoResize"
+        Title="Options" Height="450" Width="800">
+
+    <Window.DataContext>
+        <local:OptionWindowViewModel />
+    </Window.DataContext>
+
+    <Grid HorizontalAlignment="Stretch">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="3*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="2*"/>
+        </Grid.RowDefinitions>
+        <DataGridCellsPanel Grid.Row="1" Background="Orange" Grid.ColumnSpan="2"/>
+        <TextBlock IsEnabled="False" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0.3pt" Grid.Row="2" Grid.Column="0">Token:</TextBlock>
         
+        <TextBox HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="2pt" Grid.Row="2" Grid.Column="1" Text="{Binding Token}"></TextBox>
+        <DataGridCellsPanel Grid.Row="3" Background="Orange" Grid.ColumnSpan="2"/>
+        <DataGridCellsPanel Grid.Row="5" Background="Orange" Grid.ColumnSpan="2"/>
+        <DataGridCellsPanel Grid.Row="7" Background="Orange" Grid.ColumnSpan="2"/>
+
     </Grid>
 </Window>

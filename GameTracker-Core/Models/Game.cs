@@ -11,7 +11,6 @@ namespace GameTracker_Core.Models
     [JsonObject(MemberSerialization.OptIn)]
     public class Game
     {
-
         [JsonProperty("Name")]
         private string _name;
 

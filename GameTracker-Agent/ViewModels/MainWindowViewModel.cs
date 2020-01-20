@@ -14,6 +14,7 @@ using GameTracker_Core;
 using System.IO;
 using GameTracker_Agent.ViewModels;
 using System.Windows.Data;
+using GameTracker_Agent.Views;
 
 namespace GameTracker_Agent
 {
@@ -26,14 +27,14 @@ namespace GameTracker_Agent
         private ICommand _exitProgramCommand;
         private ICommand _optionCommand;
 
-        private Controller controller;
-
         public ObservableCollection<GameDirectoryDto> GameDirectories { get; set; }
 
         private GameDirectoryDto selectedDirectory;
 
         private BackgroundScanner scanner;
         private BackgroundTimer timer;
+
+        public string Timer { get { return timer.GetTimeInterval().ToString(); } set { } }
 
         public GameDirectoryDto SelectedDirectory
         {
@@ -100,15 +101,11 @@ namespace GameTracker_Agent
             AddDirectoryCommand = new RelayCommand(AddDirectory);
             ExitProgramCommand = new RelayCommand(ExitProgram);
             OptionCommand = new RelayCommand(OpenOptions);
-            controller = new Controller();
-            controller.addGameDirectory(@"D:\Blizzard");
-            controller.addGameDirectory(@"D:\Origin");
-            controller.addGameDirectory(@"D:\GameTest");
+            //controller.addGameDirectory(@"D:\Blizzard");
+            //controller.addGameDirectory(@"D:\Origin");
+            //controller.addGameDirectory(@"D:\GameTest");
             GameDirectories = fillGameDirectories(controller.GetGameDirectories());
-            SelectedDirectory = GameDirectories[0];
-            //_gameDirectoryLock = new object();
-            //BindingOperations.EnableCollectionSynchronization(GameDirectories, _gameDirectoryLock);
-            //MessageBox.Show(GameDirectories[0].Games.Count + " ");
+            //SelectedDirectory = GameDirectories[0];
             scanner = new BackgroundScanner(scanComputer);
             timer = new BackgroundTimer(scanner.StartWorker);
             timer.Start();
@@ -134,9 +131,11 @@ namespace GameTracker_Agent
             {
                 controller.addGameDirectory(dlg.FileName);
                 var gameDirectory = controller.GetGameDirectory(dlg.FileName);
-                GameDirectories.Add(new GameDirectoryDto(gameDirectory.Directory, gameDirectory.GetGames()));
-                //RaisePropertyChanged();
-                //MessageBox.Show(gameDirectory.Directory);
+                var gameDirectoryDto = new GameDirectoryDto(gameDirectory.Directory, gameDirectory.GetGames());
+                GameDirectories.Add(gameDirectoryDto);
+                selectedDirectory = gameDirectoryDto;
+                Console.WriteLine(Serializer.SerializeJson<Device>(controller._device));
+                controller.SaveDevice();
             }
         }
 
@@ -154,6 +153,7 @@ namespace GameTracker_Agent
         private void scanComputer()
         {
             controller.ScanComputer();
+            controller.SendGames();
             
             var newGameDirectories = fillGameDirectories(controller.GetGameDirectories());
 
@@ -165,6 +165,7 @@ namespace GameTracker_Agent
                 //SelectedDirectory = GameDirectories[0];
                 SelectedDirectory = GameDirectories.Where(x => x.Directory == directory).FirstOrDefault();
             });
+            controller.SaveDevice();
             //MessageBox.Show("test");
         }
 
@@ -178,13 +179,17 @@ namespace GameTracker_Agent
 
         public void ExitProgram(object obj)
         {
-            timer.Stop();
+            timer.Stop(); 
+            Environment.Exit(Environment.ExitCode);
+            controller.SaveDevice();
             Application.Current.Shutdown();
         }
 
         public void OpenOptions(object obj)
         {
             //toDo
+            OptionWindow optionWindow = new OptionWindow();
+            optionWindow.Show();
             Console.WriteLine("openOptions");
         }
 

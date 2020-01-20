@@ -10,10 +10,10 @@ namespace GameTracker_Core.Models.Dto
     [JsonObject(MemberSerialization.OptIn)]
     class GameDto
     {
-        [JsonProperty("Name")]
+        [JsonProperty("gameName")]
         private string _name;
 
-        [JsonProperty("Directory")]
+        [JsonProperty("gamePath")]
         private string _directoryPath;
 
         public GameDto()

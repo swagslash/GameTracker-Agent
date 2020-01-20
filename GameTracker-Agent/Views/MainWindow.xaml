@@ -14,15 +14,14 @@
         ResizeMode="NoResize"
         xmlns:tb="http://www.hardcodet.net/taskbar"
         Title="GameTrackerAgent" Height="450" Width="800" Closing="Window_Closing">
-
+<!--
     <Window.DataContext>
         <local:MainWindowViewModel />
     </Window.DataContext>
-
+-->
     <Grid HorizontalAlignment="Stretch">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="784*"/>
-            <ColumnDefinition Width="9*"/>
+            <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="2*"/>
@@ -80,6 +79,7 @@
             </ListView.View>
         </ListView>
         <DataGridCellsPanel Grid.Row="3" Background="Orange" Grid.ColumnSpan="2"/>
+        <TextBlock IsEnabled="False" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0.3pt" Grid.Row="4" Grid.Column="0" Text="{Binding Timer}"></TextBlock>
         <tb:TaskbarIcon IconSource="{StaticResource slash}">
             <tb:TaskbarIcon.ContextMenu>
                 <ContextMenu>

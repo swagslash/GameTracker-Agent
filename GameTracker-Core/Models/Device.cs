@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,10 +7,15 @@ using System.Text;
 namespace GameTracker_Core.Models
 {
     [Serializable]
+    [JsonObject(MemberSerialization.OptIn)]
     public class Device
     {
-        private string _token;
-        private List<GameDirectory> _gameDirectories;
+
+        [JsonProperty("Token")]
+        public string _token;
+
+        [JsonProperty("GameDirectories")]
+        public List<GameDirectory> _gameDirectories;
 
         public Device()
         {

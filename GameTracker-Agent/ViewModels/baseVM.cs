@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GameTracker_Core;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -10,7 +11,13 @@ namespace GameTracker_Agent.ViewModels
 {
     public class BaseVM : INotifyPropertyChanged
     {
+        protected Controller controller;
         public event PropertyChangedEventHandler PropertyChanged;
+
+        public BaseVM()
+        {
+            controller = new Controller();
+        }
         protected void RaisePropertyChanged([CallerMemberName] String propertyName = "")
         {
             if (PropertyChanged != null)

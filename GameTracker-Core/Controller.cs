@@ -12,7 +12,7 @@ namespace GameTracker_Core
         private static readonly string appDataPath = Path.Combine(Environment.GetFolderPath(
                 Environment.SpecialFolder.ApplicationData), "GameTrackerAgent");
         private static readonly string fileName = "device.bin";
-        private Device _device;
+        public Device _device { get; set; }
 
         public Controller()
         {
@@ -46,11 +46,12 @@ namespace GameTracker_Core
 
         public void SendGames()
         {
-            if(_device.Token != null)
+            if(string.IsNullOrEmpty(_device.Token))
             {
                 IList<Game> games = _device.GetAllGames();
                 var gameDtos = ConvertGameIListToGameDtoList(games);
                 var json = Serializer.SerializeJson<List<GameDto>>(gameDtos);
+                //Console.WriteLine(json);
                 try
                 {
                     var response = WebApiClient.PostGamesToServer(json, _device.Token);
@@ -58,6 +59,10 @@ namespace GameTracker_Core
                     if (response.IsSuccessStatusCode)
                     {
                         Console.WriteLine("success");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Failure, could not send: " + json);
                     }
                 }
                 catch (Exception e)
@@ -111,6 +116,11 @@ namespace GameTracker_Core
         public void SetToken(string token)
         {
             _device.Token = token;
+        }
+
+        public void SaveDevice()
+        {
+            Serializer.Save(Path.Combine(appDataPath, fileName), _device);
         }
     }
 }

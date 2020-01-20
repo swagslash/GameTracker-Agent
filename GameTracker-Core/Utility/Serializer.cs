@@ -9,6 +9,19 @@ namespace GameTracker_Core
 {
     public static class Serializer
     {
+        private static JsonSerializerSettings settings;
+        
+        static Serializer(){
+            settings = new JsonSerializerSettings
+            {
+                NullValueHandling = NullValueHandling.Ignore,
+                MissingMemberHandling = MissingMemberHandling.Ignore,
+                Formatting = Formatting.Indented
+            };
+        }
+        
+    
+
         public static bool Save<T>(string filePath, T objToSerialize)
         {
             try
@@ -42,7 +55,7 @@ namespace GameTracker_Core
         {
             try
             {
-                return JsonConvert.SerializeObject(objToSerialize, Formatting.Indented);
+                return JsonConvert.SerializeObject(objToSerialize,settings);
             }
             catch
             {
@@ -55,7 +68,7 @@ namespace GameTracker_Core
         {
             try
             {
-                return JsonConvert.DeserializeObject<T>(json);
+                return JsonConvert.DeserializeObject<T>(json,settings);
             }
             catch (InvalidCastException)
             {

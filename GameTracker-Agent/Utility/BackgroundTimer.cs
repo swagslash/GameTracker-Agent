@@ -6,7 +6,7 @@ namespace GameTracker_Agent
     internal class BackgroundTimer
     {
         private readonly DispatcherTimer _Timer;
-        private static readonly int _dispatchTime = 10000; //1h
+        private static readonly int _dispatchTime = 3600000; //1h
 
         public BackgroundTimer()
         {
@@ -60,5 +60,6 @@ namespace GameTracker_Agent
         {
             _Timer.Tick -= e;
         }
+
     }
 }
