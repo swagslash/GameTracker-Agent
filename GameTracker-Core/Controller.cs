@@ -1,4 +1,6 @@
 ﻿using GameTracker_Core.Models;
+using GameTracker_Core.Models.Dto;
+using GameTracker_Core.Network;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -48,8 +50,25 @@ namespace GameTracker_Core
         private void SendGames()
         {
             IList<Game> games = _device.GetAllGames();
-            var json = Serializer.SerializeJson<IList<Game>>(games);
+            var gameDtos = ConvertGameIListToGameDtoList(games);
+            var json = Serializer.SerializeJson<List<GameDto>>(gameDtos);
+            var response = WebApiClient.PostToServer(json);
             //send
+            if (response.IsSuccessStatusCode)
+            {
+                Console.WriteLine("success");
+            }
+        }
+
+        private List<GameDto> ConvertGameIListToGameDtoList(IList<Game> games)
+        {
+            var gameDtos = new List<GameDto>();
+
+            foreach (Game g in games)
+            {
+                gameDtos.Add(new GameDto(g.Name, g.DirectoryPath));
+            }
+            return gameDtos;
         }
 
         public void addGameDirectory(string path)

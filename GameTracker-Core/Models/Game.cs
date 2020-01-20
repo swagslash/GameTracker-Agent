@@ -17,9 +17,7 @@ namespace GameTracker_Core.Models
 
         [JsonProperty("Directory")]
         private string _directoryPath;
-
-        private string _imagePath;
-
+        
 
         public Game()
         {
@@ -56,18 +54,6 @@ namespace GameTracker_Core.Models
             }
         }
 
-        public string ImagePath
-        {
-            get
-            {
-                return _imagePath;
-            }
-            set
-            {
-                _imagePath = value;
-            }
-        }
-
         public override bool Equals(object obj)
         {
             if (obj == null) return false;
@@ -81,10 +67,8 @@ namespace GameTracker_Core.Models
             var hashCode = 1652676069;
             hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(_name);
             hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(_directoryPath);
-            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(_imagePath);
             hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Name);
             hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(DirectoryPath);
-            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(ImagePath);
             return hashCode;
         }
     }
