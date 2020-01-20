@@ -117,7 +117,10 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ADD_PATH" xml:space="preserve">
-    <value>Add Path</value>
+  <data name="ADD_DIRECTORY" xml:space="preserve">
+    <value>Add Directory</value>
+  </data>
+  <data name="OPTION" xml:space="preserve">
+    <value>Options</value>
   </data>
 </root>

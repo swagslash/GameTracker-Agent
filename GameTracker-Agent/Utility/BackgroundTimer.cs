@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Threading;
 
 namespace GameTracker_Agent
@@ -10,7 +6,7 @@ namespace GameTracker_Agent
     internal class BackgroundTimer
     {
         private readonly DispatcherTimer _Timer;
-        private static readonly int _dispatchTime = 3600000; //1h
+        private static readonly int _dispatchTime = 10000; //1h
 
         public BackgroundTimer()
         {

@@ -12,7 +12,7 @@ namespace GameTrackerTest
     class SerializerTest
     {
         private static readonly string appDataPath = Path.Combine(Environment.GetFolderPath(
-                   Environment.SpecialFolder.ApplicationData), "GameTrackerAgent");
+                   Environment.SpecialFolder.ApplicationData), "GameTrackerAgent", "SerializerTest");
 
         #region Save and Load
         [Test]
@@ -66,9 +66,9 @@ namespace GameTrackerTest
         {
             // given 
             var game = new Game();
-
+            var path = Path.Combine(appDataPath, "NotExistingPath");
             // when
-            var erg = Serializer.Save("D:\\NotExistingPath", game);
+            var erg = Serializer.Save(path, game);
 
             // then
             Assert.IsTrue(erg);
@@ -77,11 +77,10 @@ namespace GameTrackerTest
         [Test]
         public void loadFromNotExistingPath()
         {
-            // given 
-            var path = Path.Combine(appDataPath, "gameDirectory.bin");
-
+            // given
+            var path = Path.Combine(appDataPath, "NotExistingPath");
             // when
-            var erg = Serializer.Load<Game>("D:\\NotExistingPath");
+            var erg = Serializer.Load<Game>(path);
 
             // then
             Assert.AreEqual(erg, new Game());

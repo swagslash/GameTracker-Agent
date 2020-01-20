@@ -16,6 +16,8 @@ namespace GameTracker_Core.Models
             _gameDirectories = new List<GameDirectory>();
         }
 
+
+
         public string Token
         {
             get
@@ -37,6 +39,14 @@ namespace GameTracker_Core.Models
         {
             return _gameDirectories;
         }
+        public GameDirectory GetGameDirectory(string path)
+        {
+            foreach(GameDirectory gameDirectory in _gameDirectories)
+            {
+                if (gameDirectory.Directory == path) return gameDirectory;
+            }
+            return null;
+        }
         public bool removeGameDirectory(GameDirectory gameDirectory)
         {
             return _gameDirectories.Remove(gameDirectory);
@@ -48,6 +58,19 @@ namespace GameTracker_Core.Models
             foreach(GameDirectory gameDirectory in _gameDirectories)
             {
                 games.AddRange(gameDirectory.GetGames());
+            }
+            return games.AsReadOnly();
+        }
+
+        public IList<Game> GetGamesFromDirectory(string path)
+        {
+            List<Game> games = new List<Game>();
+            foreach (GameDirectory gameDirectory in _gameDirectories)
+            {
+                if(gameDirectory.Directory == path)
+                {
+                    games.AddRange(gameDirectory.GetGames());
+                }
             }
             return games.AsReadOnly();
         }

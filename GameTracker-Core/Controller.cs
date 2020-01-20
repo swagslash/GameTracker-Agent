@@ -67,6 +67,16 @@ namespace GameTracker_Core
             return _device.GetGameDirectories();
         }
 
+        public GameDirectory GetGameDirectory(string path)
+        {
+            return _device.GetGameDirectory(path);
+        }
+
+        public IList<Game> GetGamesFromDirectory(string path)
+        {
+            return _device.GetGamesFromDirectory(path);
+        }
+
         public string GetToken()
         {
             return _device.Token;
