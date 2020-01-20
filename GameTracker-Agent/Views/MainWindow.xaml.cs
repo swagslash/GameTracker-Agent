@@ -22,8 +22,8 @@ namespace GameTracker_Agent
     {
         public MainWindow()
         {
-            InitializeComponent();
             DataContext = new MainWindowViewModel();
+            InitializeComponent();
         }
 
         // add handler by double clicking on Closing event in Properties Box

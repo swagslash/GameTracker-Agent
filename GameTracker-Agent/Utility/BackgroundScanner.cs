@@ -21,8 +21,6 @@ namespace GameTracker_Agent
 
             _Worker.DoWork += new DoWorkEventHandler
                     (Worker_DoWork);
-            _Worker.ProgressChanged += new ProgressChangedEventHandler
-                    (Worker_ProgressChanged);
             _Worker.RunWorkerCompleted += new RunWorkerCompletedEventHandler
                     (Worker_RunWorkerCompleted);
 
@@ -41,10 +39,7 @@ namespace GameTracker_Agent
                 Console.WriteLine("Completed with Result: {0}", e.Result);
             }
         }
-        public void Worker_ProgressChanged(object sender, ProgressChangedEventArgs e)
-        {
-
-        }
+        
         public void Worker_DoWork(object sender, DoWorkEventArgs e)
         {
             if(method != null)

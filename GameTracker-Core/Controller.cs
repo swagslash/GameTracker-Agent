@@ -21,6 +21,7 @@ namespace GameTracker_Core
             if (Directory.Exists(Path.Combine(appDataPath, fileName)))
             {
                 _device = Serializer.Load<Device>(Path.Combine(appDataPath, fileName));
+                Console.WriteLine(Serializer.SerializeJson<Device>(_device));
             }
         }
 

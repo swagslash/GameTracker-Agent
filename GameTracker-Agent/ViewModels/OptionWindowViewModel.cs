@@ -13,13 +13,13 @@ namespace GameTracker_Agent.ViewModels
 
         public string Token
         {
-            get { return controller.GetToken(); }
-            set { controller.SetToken(value); }
+            get { return Controller.GetToken(); }
+            set { Controller.SetToken(value); }
         }
 
         public OptionWindowViewModel()
         {
-            controller.SetToken("b9eebd97-6244-488a-88a8-1592de03cad7");
+            Controller.SetToken("b9eebd97-6244-488a-88a8-1592de03cad7");
         }
     }
 }

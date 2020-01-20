@@ -11,7 +11,12 @@ namespace GameTracker_Agent.ViewModels
 {
     public class BaseVM : INotifyPropertyChanged
     {
-        protected Controller controller;
+        private Controller controller;
+        public Controller Controller
+        {
+            get { return controller; }
+            set { controller = value; RaisePropertyChanged("Controller"); }
+        }
         public event PropertyChangedEventHandler PropertyChanged;
 
         public BaseVM()

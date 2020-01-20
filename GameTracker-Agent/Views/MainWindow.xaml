@@ -79,7 +79,7 @@
             </ListView.View>
         </ListView>
         <DataGridCellsPanel Grid.Row="3" Background="Orange" Grid.ColumnSpan="2"/>
-        <TextBlock IsEnabled="False" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0.3pt" Grid.Row="4" Grid.Column="0" Text="{Binding Timer}"></TextBlock>
+        <!--<TextBlock IsEnabled="False" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0.3pt" Grid.Row="4" Grid.Column="0" Text="{Binding Timer}"></TextBlock>-->
         <tb:TaskbarIcon IconSource="{StaticResource slash}">
             <tb:TaskbarIcon.ContextMenu>
                 <ContextMenu>
