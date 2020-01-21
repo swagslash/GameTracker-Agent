@@ -10,9 +10,9 @@ namespace GameTrackerConsole
         static void Main(string[] args)
         {
             Controller c = new Controller();
-            c.addGameDirectory(@"D:\Blizzard");
             c.ScanComputer();
             c.SetToken("b9eebd97-6244-488a-88a8-1592de03cad7");
+            //Console.WriteLine(Serializer.SerializeJson<Device>(c._device));
             c.SendGames();
         }
     }

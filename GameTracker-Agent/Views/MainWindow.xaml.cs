@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GameTracker_Core;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,7 +23,7 @@ namespace GameTracker_Agent
     {
         public MainWindow()
         {
-            DataContext = new MainWindowViewModel();
+            //DataContext = new MainWindowViewModel();
             InitializeComponent();
         }
 

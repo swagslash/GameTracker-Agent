@@ -1,4 +1,6 @@
-﻿using System;
+﻿using GameTracker_Agent.ViewModels;
+using GameTracker_Core;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,6 +24,11 @@ namespace GameTracker_Agent.Views
         public OptionWindow()
         {
             InitializeComponent();
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+
         }
     }
 }

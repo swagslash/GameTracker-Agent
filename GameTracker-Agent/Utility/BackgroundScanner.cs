@@ -48,7 +48,7 @@ namespace GameTracker_Agent
             }
             else
             {
-                MessageBox.Show("Failed");
+                MessageBox.Show("There is no Work to do");
             }
         }
 

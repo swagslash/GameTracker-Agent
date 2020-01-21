@@ -14,14 +14,15 @@
         ResizeMode="NoResize"
         xmlns:tb="http://www.hardcodet.net/taskbar"
         Title="GameTrackerAgent" Height="450" Width="800" Closing="Window_Closing">
-<!--
+
     <Window.DataContext>
         <local:MainWindowViewModel />
     </Window.DataContext>
--->
+
     <Grid HorizontalAlignment="Stretch">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="519*"/>
+            <ColumnDefinition Width="275*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="2*"/>
@@ -50,7 +51,7 @@
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal">
                             <TextBlock>
-                                <Run Text="{Binding Directory}"></Run>
+                                <Run Text="{Binding Directory,Mode=TwoWay}"></Run>
                             </TextBlock>
                         </StackPanel>
                     </DataTemplate>
@@ -70,7 +71,7 @@
         <DataGridCellsPanel Grid.Row="1" Background="Orange" Grid.ColumnSpan="2"/>
         <!--<ListBox HorizontalAlignment="Stretch" Grid.Row="2" VerticalAlignment="Stretch"
                  ItemsSource="{Binding Pathcollection,Mode=TwoWay}"/> -->
-        <ListView Name="GameDirectory" ItemsSource="{Binding SelectedDirectory.Games}" Grid.Row="2" Grid.ColumnSpan="2">
+        <ListView Name="GameDirectory" ItemsSource="{Binding SelectedDirectory.Games,Mode=TwoWay}" Grid.Row="2" Grid.ColumnSpan="2">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Name" Width="auto" DisplayMemberBinding="{Binding Name}" />
@@ -80,7 +81,7 @@
         </ListView>
         <DataGridCellsPanel Grid.Row="3" Background="Orange" Grid.ColumnSpan="2"/>
         <!--<TextBlock IsEnabled="False" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0.3pt" Grid.Row="4" Grid.Column="0" Text="{Binding Timer}"></TextBlock>-->
-        <tb:TaskbarIcon IconSource="{StaticResource slash}">
+        <tb:TaskbarIcon IconSource="{StaticResource slash}" Grid.ColumnSpan="2">
             <tb:TaskbarIcon.ContextMenu>
                 <ContextMenu>
                     <MenuItem Click="OpenProgram" 
@@ -88,10 +89,10 @@
                     <MenuItem Command="{Binding ExitProgramCommand}" 
                     Header="Exit" />
                 </ContextMenu>
-                
+
             </tb:TaskbarIcon.ContextMenu>
         </tb:TaskbarIcon>
     </Grid>
 
-    
+
 </Window>

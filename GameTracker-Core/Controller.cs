@@ -18,10 +18,18 @@ namespace GameTracker_Core
         {
             _device = new Device();
             Directory.CreateDirectory(appDataPath);
-            if (Directory.Exists(Path.Combine(appDataPath, fileName)))
+            if (File.Exists(Path.Combine(appDataPath, fileName)))
             {
                 _device = Serializer.Load<Device>(Path.Combine(appDataPath, fileName));
-                Console.WriteLine(Serializer.SerializeJson<Device>(_device));
+            }
+        }
+
+        public Controller(string filePath)
+        {
+            _device = new Device();
+            if (File.Exists(filePath))
+            {
+                _device = Serializer.Load<Device>(filePath);
             }
         }
 
@@ -47,12 +55,12 @@ namespace GameTracker_Core
 
         public void SendGames()
         {
-            if(string.IsNullOrEmpty(_device.Token))
+            if(!string.IsNullOrEmpty(_device.Token))
             {
                 IList<Game> games = _device.GetAllGames();
                 var gameDtos = ConvertGameIListToGameDtoList(games);
                 var json = Serializer.SerializeJson<List<GameDto>>(gameDtos);
-                //Console.WriteLine(json);
+                Console.WriteLine(json);
                 try
                 {
                     var response = WebApiClient.PostGamesToServer(json, _device.Token);
