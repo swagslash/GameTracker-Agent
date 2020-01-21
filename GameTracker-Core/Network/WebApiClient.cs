@@ -9,7 +9,6 @@ namespace GameTracker_Core.Network
     class WebApiClient
     {
         private static readonly string URL = "http://localhost:8080";
-        private static string UrlParameters = "/api/agent/b9eebd97-6244-488a-88a8-1592de03cad7";
 
         private static readonly HttpClient client = new HttpClient();
 
@@ -22,10 +21,10 @@ namespace GameTracker_Core.Network
 
         public static HttpResponseMessage PostGamesToServer(string json, string token)
         {
-            UrlParameters = "/api/agent/" + token;
-            return PostToServer(json);
+            var UrlParameters = "/api/agent/" + token;
+            return PostToServer(json,UrlParameters);
         }
-        private static HttpResponseMessage PostToServer(string json)
+        private static HttpResponseMessage PostToServer(string json,string UrlParameters)
         {
             var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
             return client.PostAsync(UrlParameters, httpContent).Result;

@@ -42,9 +42,6 @@
                 <ColumnDefinition Width="35*"/>
                 <ColumnDefinition Width="5*"/>
             </Grid.ColumnDefinitions>
-            <!--<TextBox Grid.Column="1" HorizontalAlignment="Stretch" TextWrapping="Wrap"  VerticalAlignment="Center" 
-                     Text="{Binding DirectoryPath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-            -->
             <ComboBox Grid.Column="1" Name="cmbGameDirectories" ItemsSource="{Binding GameDirectories}" SelectedItem="{Binding SelectedDirectory, Mode=TwoWay}" Margin="0,4">
 
                 <ComboBox.ItemTemplate>
@@ -57,9 +54,6 @@
                     </DataTemplate>
                 </ComboBox.ItemTemplate>
             </ComboBox>
-            <!--<Button Grid.Column="3" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch"
-                    Command="{Binding OpenDirectoryCommand}"/>
-            -->
             <Button Content="{Binding AddDirectoryContent}" Grid.Column="3" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch"
                     Command="{Binding AddDirectoryCommand}" Margin="0,3">
             </Button>
@@ -69,8 +63,6 @@
             </Button>
         </Grid>
         <DataGridCellsPanel Grid.Row="1" Background="Orange" Grid.ColumnSpan="2"/>
-        <!--<ListBox HorizontalAlignment="Stretch" Grid.Row="2" VerticalAlignment="Stretch"
-                 ItemsSource="{Binding Pathcollection,Mode=TwoWay}"/> -->
         <ListView Name="GameDirectory" ItemsSource="{Binding SelectedDirectory.Games,Mode=TwoWay}" Grid.Row="2" Grid.ColumnSpan="2">
             <ListView.View>
                 <GridView>
@@ -80,7 +72,6 @@
             </ListView.View>
         </ListView>
         <DataGridCellsPanel Grid.Row="3" Background="Orange" Grid.ColumnSpan="2"/>
-        <!--<TextBlock IsEnabled="False" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0.3pt" Grid.Row="4" Grid.Column="0" Text="{Binding Timer}"></TextBlock>-->
         <tb:TaskbarIcon IconSource="{StaticResource slash}" Grid.ColumnSpan="2">
             <tb:TaskbarIcon.ContextMenu>
                 <ContextMenu>
