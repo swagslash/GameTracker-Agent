@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GameTracker_Agent.Models
 {
     class GameDto
     {
-
         public string Name { get; set; }
         public string DirectoryPath {get; set; }
 

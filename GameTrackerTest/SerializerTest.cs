@@ -16,7 +16,7 @@ namespace GameTrackerTest
 
         #region Save and Load
         [Test]
-        public void saveAndLoadFromDevice()
+        public void SaveAndLoadFromDevice()
         {
             // given
             var device = new Device();
@@ -31,7 +31,7 @@ namespace GameTrackerTest
         }
 
         [Test]
-        public void saveAndLoadFromGame()
+        public void SaveAndLoadFromGame()
         {
             // given
             var game = new Game();
@@ -47,7 +47,7 @@ namespace GameTrackerTest
         }
 
         [Test]
-        public void saveAndLoadFromGameDirectory()
+        public void SaveAndLoadFromGameDirectory()
         {
             // given
             var gameDirectory = new GameDirectory();
@@ -62,7 +62,7 @@ namespace GameTrackerTest
         }
 
         [Test]
-        public void saveOnNotExistingPath()
+        public void SaveOnNotExistingPath()
         {
             // given 
             var game = new Game();
@@ -75,7 +75,7 @@ namespace GameTrackerTest
         }
 
         [Test]
-        public void loadFromNotExistingPath()
+        public void LoadFromNotExistingPath()
         {
             // given
             var path = Path.Combine(appDataPath, "NotExistingPath");

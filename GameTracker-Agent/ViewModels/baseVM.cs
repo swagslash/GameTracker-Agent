@@ -1,22 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using GameTracker_Core;
+using System;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GameTracker_Agent.ViewModels
 {
     public class BaseVM : INotifyPropertyChanged
-    {
+    {        
         public event PropertyChangedEventHandler PropertyChanged;
+
+        protected static Controller controller = new Controller();
+
+        public BaseVM()
+        {
+        }
         protected void RaisePropertyChanged([CallerMemberName] String propertyName = "")
         {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        public void SaveDevice()
+        {
+            controller.SaveDevice();
         }
     }
 }

@@ -13,7 +13,7 @@ namespace GameTracker_Core.Models
         private string _directory;
 
         [JsonProperty("Games")]
-        private List<Game> _games;
+        private readonly List<Game> _games;
 
         public GameDirectory()
         {
@@ -26,7 +26,7 @@ namespace GameTracker_Core.Models
             _games = DirectorySearchHelper.FindNewGames(this);
         }
 
-        public void addGame(Game game)
+        public void AddGame(Game game)
         {
             _games.Add(game);
         }

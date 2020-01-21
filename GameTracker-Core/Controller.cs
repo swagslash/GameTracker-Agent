@@ -1,4 +1,6 @@
 ﻿using GameTracker_Core.Models;
+using GameTracker_Core.Models.Dto;
+using GameTracker_Core.Network;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -10,22 +12,31 @@ namespace GameTracker_Core
         private static readonly string appDataPath = Path.Combine(Environment.GetFolderPath(
                 Environment.SpecialFolder.ApplicationData), "GameTrackerAgent");
         private static readonly string fileName = "device.bin";
-        private Device _device;
+        public Device Device { get; set; }
 
         public Controller()
         {
-            _device = new Device();
+            Device = new Device();
             Directory.CreateDirectory(appDataPath);
-            if (Directory.Exists(Path.Combine(appDataPath, fileName)))
+            if (File.Exists(Path.Combine(appDataPath, fileName)))
             {
-                _device = Serializer.Load<Device>(Path.Combine(appDataPath, fileName));
+                Device = Serializer.Load<Device>(Path.Combine(appDataPath, fileName));
+            }
+        }
+
+        public Controller(string filePath)
+        {
+            Device = new Device();
+            if (File.Exists(filePath))
+            {
+                Device = Serializer.Load<Device>(filePath);
             }
         }
 
         public void ScanComputer()
         {
             //Find new or removed Games
-            var gameDirectories = _device.GetGameDirectories();
+            var gameDirectories = Device.GetGameDirectories();
             foreach(GameDirectory gameDirectory in gameDirectories)
             {
                 var newGames = DirectorySearchHelper.FindNewGames(gameDirectory);
@@ -40,51 +51,85 @@ namespace GameTracker_Core
                     gameDirectory.RemoveGames(removedGames);
                 }
             }
-
-            //Send them to Backend
-            SendGames();
         }
 
-        private void SendGames()
+        public void SendGames()
         {
-            IList<Game> games = _device.GetAllGames();
-            var json = Serializer.SerializeJson<IList<Game>>(games);
-            //send
+            if(!string.IsNullOrEmpty(Device.Token))
+            {
+                IList<Game> games = Device.GetAllGames();
+                var gameDtos = ConvertGameIListToGameDtoList(games);
+                var json = Serializer.SerializeJson<List<GameDto>>(gameDtos);
+                Console.WriteLine(json);
+                try
+                {
+                    var response = WebApiClient.PostGamesToServer(json, Device.Token);
+                    //send
+                    if (response.IsSuccessStatusCode)
+                    {
+                        Console.WriteLine("success");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Failure, could not send: " + json);
+                    }
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("SendGames Error: {0}", e);
+                }
+            }
         }
 
-        public void addGameDirectory(string path)
+        private List<GameDto> ConvertGameIListToGameDtoList(IList<Game> games)
         {
-            _device.addGameDirectory(new GameDirectory(path));
+            var gameDtos = new List<GameDto>();
+
+            foreach (Game g in games)
+            {
+                gameDtos.Add(new GameDto(g.Name, g.DirectoryPath));
+            }
+            return gameDtos;
         }
 
-        public void removeGameDirectory(GameDirectory gameDirectory)
+        public void AddGameDirectory(string path)
         {
-            _device.removeGameDirectory(gameDirectory);
+            Device.AddGameDirectory(new GameDirectory(path));
+        }
+
+        public void RemoveGameDirectory(GameDirectory gameDirectory)
+        {
+            Device.RemoveGameDirectory(gameDirectory);
         }
 
         public IList<GameDirectory> GetGameDirectories()
         {
-            return _device.GetGameDirectories();
+            return Device.GetGameDirectories();
         }
 
         public GameDirectory GetGameDirectory(string path)
         {
-            return _device.GetGameDirectory(path);
+            return Device.GetGameDirectory(path);
         }
 
         public IList<Game> GetGamesFromDirectory(string path)
         {
-            return _device.GetGamesFromDirectory(path);
+            return Device.GetGamesFromDirectory(path);
         }
 
         public string GetToken()
         {
-            return _device.Token;
+            return Device.Token;
         }
 
         public void SetToken(string token)
         {
-            _device.Token = token;
+            Device.Token = token;
+        }
+
+        public void SaveDevice()
+        {
+            Serializer.Save(Path.Combine(appDataPath, fileName), Device);
         }
     }
 }

@@ -16,13 +16,13 @@ namespace GameTrackerTest
         private Controller controller2;
 
         [Test]
-        public void scanComputerAfterOneAddGameRegister()
+        public void ScanComputerAfterOneAddGameRegister()
         {
             // given
             var appDataPathExtended = SetUp(TestContext.CurrentContext.Test.Name);
             var path = Path.Combine(appDataPathExtended, "Test3");
-            controller1.addGameDirectory(path);
-            controller2.addGameDirectory(path);
+            controller1.AddGameDirectory(path);
+            controller2.AddGameDirectory(path);
             Directory.CreateDirectory(Path.Combine(appDataPathExtended, "Test3", "Test31"));
             Directory.CreateDirectory(Path.Combine(appDataPathExtended, "Test3", "Test32"));
             using (File.Create(Path.Combine(appDataPathExtended, "Test3", "Test31", "test3.exe")))  { }
@@ -38,10 +38,10 @@ namespace GameTrackerTest
         }
 
         [Test]
-        public void scanComputerWithNoChanges()
+        public void ScanComputerWithNoChanges()
         {
             // given
-            var appDataPathExtended = SetUp(TestContext.CurrentContext.Test.Name);
+            _ = SetUp(TestContext.CurrentContext.Test.Name);
 
             // when
             controller1.ScanComputer();
@@ -51,7 +51,7 @@ namespace GameTrackerTest
         }
 
         [Test]
-        public void scanComputerAfterOneGameWasRemoved()
+        public void ScanComputerAfterOneGameWasRemoved()
         {
             // given
             var appDataPathExtended = SetUp(TestContext.CurrentContext.Test.Name);
@@ -68,14 +68,14 @@ namespace GameTrackerTest
         }
 
         [Test]
-        public void addGameDictionarySuccesful()
+        public void AddGameDictionarySuccesful()
         {
             // given
             var appDataPathExtended = SetUp(TestContext.CurrentContext.Test.Name);
-            var gameDirectories = controller1.GetGameDirectories();
+            _ = controller1.GetGameDirectories();
             var path = Path.Combine(appDataPathExtended, "Test2");
             // when
-            controller1.addGameDirectory(path);
+            controller1.AddGameDirectory(path);
             // then
             Assert.AreEqual(controller1.GetGameDirectories().Count,2);
             Assert.AreEqual(controller2.GetToken(), controller1.GetToken());
@@ -87,14 +87,14 @@ namespace GameTrackerTest
         }
 
         [Test]
-        public void addNotExistingGameDictionary()
+        public void AddNotExistingGameDictionary()
         {
             // given
             var appDataPathExtended = SetUp(TestContext.CurrentContext.Test.Name);
-            var gameDirectories = controller1.GetGameDirectories();
+            _ = controller1.GetGameDirectories();
             var path = Path.Combine(appDataPathExtended, "Test4");
             // when
-            controller1.addGameDirectory(path);
+            controller1.AddGameDirectory(path);
             // then
             Assert.AreEqual(controller1.GetGameDirectories().Count, 2);
             Assert.AreEqual(controller2.GetToken(), controller1.GetToken());
@@ -104,25 +104,25 @@ namespace GameTrackerTest
         }
 
         [Test]
-        public void removeGameDictionarySuccesful()
+        public void RemoveGameDictionarySuccesful()
         {
             // given
             var appDataPathExtended = SetUp(TestContext.CurrentContext.Test.Name);
             var path = Path.Combine(appDataPathExtended, "Test1");
             // when
-            controller1.removeGameDirectory(new GameDirectory(path));
+            controller1.RemoveGameDirectory(new GameDirectory(path));
             // then
             Assert.AreEqual(controller1.GetGameDirectories().Count, 0);
         }
 
         [Test]
-        public void removeNotExistingGameDictionary()
+        public void RemoveNotExistingGameDictionary()
         {
             // given
             var appDataPathExtended = SetUp(TestContext.CurrentContext.Test.Name);
             var path = Path.Combine(appDataPathExtended, "Test4");
             // when
-            controller1.removeGameDirectory(new GameDirectory(path));
+            controller1.RemoveGameDirectory(new GameDirectory(path));
             // then
             Assert.AreEqual(controller1.GetGameDirectories().Count, 1);
             CollectionAssert.AreEqual(controller1.GetGameDirectories(), controller2.GetGameDirectories());
@@ -156,10 +156,10 @@ namespace GameTrackerTest
             using (File.Create(Path.Combine(appDataPathExtended, "Test2", "Test22", "test2.txt"))) { }
 
 
-            controller1 = new Controller();
-            controller2 = new Controller();
-            controller1.addGameDirectory(Path.Combine(appDataPathExtended, "Test1"));
-            controller2.addGameDirectory(Path.Combine(appDataPathExtended, "Test1"));
+            controller1 = new Controller(appDataPathExtended);
+            controller2 = new Controller(appDataPathExtended);
+            controller1.AddGameDirectory(Path.Combine(appDataPathExtended, "Test1"));
+            controller2.AddGameDirectory(Path.Combine(appDataPathExtended, "Test1"));
 
             return appDataPathExtended;
         }

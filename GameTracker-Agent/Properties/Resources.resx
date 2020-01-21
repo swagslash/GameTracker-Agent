@@ -123,4 +123,7 @@
   <data name="OPTION" xml:space="preserve">
     <value>Options</value>
   </data>
+  <data name="SAVE" xml:space="preserve">
+    <value>Save</value>
+  </data>
 </root>

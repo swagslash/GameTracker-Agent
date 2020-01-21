@@ -77,5 +77,14 @@ namespace GameTracker_Agent.Properties {
                 return ResourceManager.GetString("OPTION", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Save.
+        /// </summary>
+        internal static string SAVE {
+            get {
+                return ResourceManager.GetString("SAVE", resourceCulture);
+            }
+        }
     }
 }
