@@ -126,4 +126,7 @@
   <data name="SAVE" xml:space="preserve">
     <value>Save</value>
   </data>
+  <data name="SEND" xml:space="preserve">
+    <value>Send Games</value>
+  </data>
 </root>

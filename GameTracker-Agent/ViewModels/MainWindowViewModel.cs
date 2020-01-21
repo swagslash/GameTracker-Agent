@@ -19,6 +19,7 @@ namespace GameTracker_Agent
         private ICommand _addDirectoryCommand;
         private ICommand _exitProgramCommand;
         private ICommand _optionCommand;
+        private ICommand _sendCommand;
 
 
         public ObservableCollection<GameDirectoryDto> GameDirectories { get; set; }
@@ -44,6 +45,14 @@ namespace GameTracker_Agent
             }
         }
 
+        public string SendContent
+        {
+            get
+            {
+                return Properties.Resources.SEND;
+            }
+        }
+
 
         public string OptionContent
         {
@@ -64,6 +73,18 @@ namespace GameTracker_Agent
                 _addDirectoryCommand = value;
             }
         }
+        public ICommand SendCommand
+        {
+            get
+            {
+                return _sendCommand;
+            }
+            set
+            {
+                _sendCommand = value;
+            }
+        }
+
 
         public ICommand OptionCommand
         {
@@ -96,6 +117,7 @@ namespace GameTracker_Agent
             AddDirectoryCommand = new RelayCommand(AddDirectory);
             ExitProgramCommand = new RelayCommand(ExitProgram);
             OptionCommand = new RelayCommand(OpenOptions);
+            SendCommand = new RelayCommand(SendGames);
             FillGameDirectories(controller.GetGameDirectories());
 
             if (GameDirectories.Count > 0)
@@ -104,7 +126,12 @@ namespace GameTracker_Agent
             }
             scanner = new BackgroundScanner(ScanComputer);
             timer = new BackgroundTimer(scanner.StartWorker);
-            timer.Start();
+            //timer.Start();
+        }
+
+        private void SendGames(object obj)
+        {
+            scanner.StartWorker();
         }
 
         public void AddDirectory(object obj)
@@ -161,7 +188,7 @@ namespace GameTracker_Agent
 
         public void ExitProgram(object obj)
         {
-            timer.Stop(); 
+            //timer.Stop(); 
             Environment.Exit(Environment.ExitCode);
             controller.SaveDevice();
             Application.Current.Shutdown();

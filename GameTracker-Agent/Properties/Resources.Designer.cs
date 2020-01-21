@@ -86,5 +86,14 @@ namespace GameTracker_Agent.Properties {
                 return ResourceManager.GetString("SAVE", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Send Games.
+        /// </summary>
+        internal static string SEND {
+            get {
+                return ResourceManager.GetString("SEND", resourceCulture);
+            }
+        }
     }
 }
