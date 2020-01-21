@@ -25,8 +25,8 @@ namespace GameTracker_Agent
 
         private GameDirectoryDto selectedDirectory;
 
-        private BackgroundScanner scanner;
-        private BackgroundTimer timer;
+        private readonly BackgroundScanner scanner;
+        private readonly BackgroundTimer timer;
 
 
         public GameDirectoryDto SelectedDirectory
@@ -96,20 +96,20 @@ namespace GameTracker_Agent
             AddDirectoryCommand = new RelayCommand(AddDirectory);
             ExitProgramCommand = new RelayCommand(ExitProgram);
             OptionCommand = new RelayCommand(OpenOptions);
-            fillGameDirectories(controller.GetGameDirectories());
+            FillGameDirectories(controller.GetGameDirectories());
 
             if (GameDirectories.Count > 0)
             {
                 SelectedDirectory = GameDirectories.First();
             }
-            scanner = new BackgroundScanner(scanComputer);
+            scanner = new BackgroundScanner(ScanComputer);
             timer = new BackgroundTimer(scanner.StartWorker);
             timer.Start();
         }
 
         public void AddDirectory(object obj)
         {
-            var dlg = new CommonOpenFileDialog()
+            using (var dlg = new CommonOpenFileDialog()
             {
                 Title = "Choose Directory",
                 IsFolderPicker = true,
@@ -121,20 +121,21 @@ namespace GameTracker_Agent
                 EnsureValidNames = true,
                 Multiselect = false,
                 ShowPlacesList = true
-            };
-
-            if (dlg.ShowDialog() == CommonFileDialogResult.Ok)
+            })
             {
-                controller.addGameDirectory(dlg.FileName);
-                var gameDirectory = controller.GetGameDirectory(dlg.FileName);
-                var gameDirectoryDto = new GameDirectoryDto(gameDirectory.Directory, gameDirectory.GetGames());
-                GameDirectories.Add(gameDirectoryDto);
-                selectedDirectory = GameDirectories.Last();
-                controller.SaveDevice();
+                if (dlg.ShowDialog() == CommonFileDialogResult.Ok)
+                {
+                    controller.AddGameDirectory(dlg.FileName);
+                    var gameDirectory = controller.GetGameDirectory(dlg.FileName);
+                    var gameDirectoryDto = new GameDirectoryDto(gameDirectory.Directory, gameDirectory.GetGames());
+                    GameDirectories.Add(gameDirectoryDto);
+                    selectedDirectory = GameDirectories.Last();
+                    controller.SaveDevice();
+                }
             }
         }
 
-        private void fillGameDirectories(IList<GameDirectory> gameDirectories)
+        private void FillGameDirectories(IList<GameDirectory> gameDirectories)
         {
             foreach (GameDirectory directory in gameDirectories)
             {
@@ -142,7 +143,7 @@ namespace GameTracker_Agent
             }
         }
 
-        private void scanComputer()
+        private void ScanComputer()
         {
             controller.ScanComputer();
             controller.SendGames();
@@ -152,7 +153,7 @@ namespace GameTracker_Agent
             {
                 var directory = selectedDirectory.Directory;
                 GameDirectories.Clear();
-                fillGameDirectories(controller.GetGameDirectories());
+                FillGameDirectories(controller.GetGameDirectories());
                 SelectedDirectory = GameDirectories.Last();
             });
             controller.SaveDevice();

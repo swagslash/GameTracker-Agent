@@ -9,7 +9,7 @@ namespace GameTracker_Core
 {
     public static class Serializer
     {
-        private static JsonSerializerSettings settings;
+        private static readonly JsonSerializerSettings settings;
         
         static Serializer(){
             settings = new JsonSerializerSettings

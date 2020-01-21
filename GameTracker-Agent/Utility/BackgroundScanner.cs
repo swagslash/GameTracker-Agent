@@ -6,8 +6,8 @@ namespace GameTracker_Agent
 {
     internal class BackgroundScanner
     {
-        private BackgroundWorker _Worker;
-        private Action method;
+        private readonly BackgroundWorker _Worker;
+        private readonly Action method;
 
         public BackgroundScanner(Action method)
         {

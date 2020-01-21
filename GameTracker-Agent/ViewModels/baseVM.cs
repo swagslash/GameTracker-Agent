@@ -16,13 +16,10 @@ namespace GameTracker_Agent.ViewModels
         }
         protected void RaisePropertyChanged([CallerMemberName] String propertyName = "")
         {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public void saveDevice()
+        public void SaveDevice()
         {
             controller.SaveDevice();
         }

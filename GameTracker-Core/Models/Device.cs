@@ -36,7 +36,7 @@ namespace GameTracker_Core.Models
             }
         }
 
-        public void addGameDirectory(GameDirectory gameDirectory)
+        public void AddGameDirectory(GameDirectory gameDirectory)
         {
             _gameDirectories.Add(gameDirectory);
         }
@@ -53,7 +53,7 @@ namespace GameTracker_Core.Models
             }
             return null;
         }
-        public bool removeGameDirectory(GameDirectory gameDirectory)
+        public bool RemoveGameDirectory(GameDirectory gameDirectory)
         {
             return _gameDirectories.Remove(gameDirectory);
         }

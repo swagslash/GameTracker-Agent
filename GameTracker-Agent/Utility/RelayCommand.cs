@@ -18,18 +18,8 @@ namespace GameTracker_Agent
 
         public RelayCommand(Action<object> execute, Predicate<object> canExecute)
         {
-            if (execute == null)
-            {
-                throw new ArgumentNullException(nameof(execute));
-            }
-
-            if (canExecute == null)
-            {
-                throw new ArgumentNullException(nameof(canExecute));
-            }
-
-            _execute = execute;
-            _canExecute = canExecute;
+            _execute = execute ?? throw new ArgumentNullException(nameof(execute));
+            _canExecute = canExecute ?? throw new ArgumentNullException(nameof(canExecute));
         }
 
         public event EventHandler CanExecuteChanged

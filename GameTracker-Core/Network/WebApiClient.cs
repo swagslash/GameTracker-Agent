@@ -11,7 +11,7 @@ namespace GameTracker_Core.Network
         private static readonly string URL = "http://localhost:8080";
         private static string UrlParameters = "/api/agent/b9eebd97-6244-488a-88a8-1592de03cad7";
 
-        private static HttpClient client = new HttpClient();
+        private static readonly HttpClient client = new HttpClient();
 
         static WebApiClient() {
             client.BaseAddress = new Uri(URL);
