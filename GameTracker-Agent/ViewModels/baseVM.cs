@@ -9,7 +9,7 @@ namespace GameTracker_Agent.ViewModels
     {        
         public event PropertyChangedEventHandler PropertyChanged;
 
-        protected static Controller controller = new Controller();
+        protected static Controller controller = new Controller(Properties.Resources.URL);
 
         public BaseVM()
         {

@@ -95,5 +95,14 @@ namespace GameTracker_Agent.Properties {
                 return ResourceManager.GetString("SEND", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to http://localhost:8080.
+        /// </summary>
+        internal static string URL {
+            get {
+                return ResourceManager.GetString("URL", resourceCulture);
+            }
+        }
     }
 }

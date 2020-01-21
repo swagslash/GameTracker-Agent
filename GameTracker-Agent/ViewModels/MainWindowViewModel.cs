@@ -27,7 +27,7 @@ namespace GameTracker_Agent
         private GameDirectoryDto selectedDirectory;
 
         private readonly BackgroundScanner scanner;
-        private readonly BackgroundTimer timer;
+        //private readonly BackgroundTimer timer;
 
 
         public GameDirectoryDto SelectedDirectory
@@ -112,7 +112,6 @@ namespace GameTracker_Agent
 
         public MainWindowViewModel() : base()
         {
-            controller = new Controller();
             GameDirectories = new ObservableCollection<GameDirectoryDto>();
             AddDirectoryCommand = new RelayCommand(AddDirectory);
             ExitProgramCommand = new RelayCommand(ExitProgram);
@@ -122,10 +121,10 @@ namespace GameTracker_Agent
 
             if (GameDirectories.Count > 0)
             {
-                SelectedDirectory = GameDirectories.First();
+                SelectedDirectory = GameDirectories.First(); //just pick one
             }
             scanner = new BackgroundScanner(ScanComputer);
-            timer = new BackgroundTimer(scanner.StartWorker);
+            //timer = new BackgroundTimer(scanner.StartWorker);
             //timer.Start();
         }
 
@@ -156,7 +155,8 @@ namespace GameTracker_Agent
                     var gameDirectory = controller.GetGameDirectory(dlg.FileName);
                     var gameDirectoryDto = new GameDirectoryDto(gameDirectory.Directory, gameDirectory.GetGames());
                     GameDirectories.Add(gameDirectoryDto);
-                    selectedDirectory = GameDirectories.Last();
+                    
+                    SelectedDirectory = GameDirectories.Last(); //for showing the new inserted one
                     controller.SaveDevice();
                 }
             }

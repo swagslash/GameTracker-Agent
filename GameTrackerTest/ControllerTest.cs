@@ -41,7 +41,7 @@ namespace GameTrackerTest
         public void ScanComputerWithNoChanges()
         {
             // given
-            _ = SetUp(TestContext.CurrentContext.Test.Name);
+            SetUp(TestContext.CurrentContext.Test.Name);
 
             // when
             controller1.ScanComputer();
@@ -156,8 +156,8 @@ namespace GameTrackerTest
             using (File.Create(Path.Combine(appDataPathExtended, "Test2", "Test22", "test2.txt"))) { }
 
 
-            controller1 = new Controller(appDataPathExtended);
-            controller2 = new Controller(appDataPathExtended);
+            controller1 = new Controller(appDataPathExtended,"");
+            controller2 = new Controller(appDataPathExtended,"");
             controller1.AddGameDirectory(Path.Combine(appDataPathExtended, "Test1"));
             controller2.AddGameDirectory(Path.Combine(appDataPathExtended, "Test1"));
 

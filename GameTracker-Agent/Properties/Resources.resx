@@ -129,4 +129,7 @@
   <data name="SEND" xml:space="preserve">
     <value>Send Games</value>
   </data>
+  <data name="URL" xml:space="preserve">
+    <value>http://localhost:8080</value>
+  </data>
 </root>
