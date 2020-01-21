@@ -72,6 +72,9 @@
             </ListView.View>
         </ListView>
         <DataGridCellsPanel Grid.Row="3" Background="Orange" Grid.ColumnSpan="2"/>
+        <Button Content="{Binding SendContent}" Grid.Row="4" Grid.Column="2" HorizontalAlignment="Center"  VerticalAlignment="Stretch" 
+                    Command="{Binding SendCommand}" Margin="5" >
+        </Button>
         <tb:TaskbarIcon IconSource="{StaticResource slash}" Grid.ColumnSpan="2">
             <tb:TaskbarIcon.ContextMenu>
                 <ContextMenu>

@@ -59,5 +59,13 @@ namespace GameTracker_Agent
                 _Worker.RunWorkerAsync();
             }
         }
+
+        public void StartWorker()
+        {
+            if (!_Worker.IsBusy)
+            {
+                _Worker.RunWorkerAsync();
+            }
+        }
     }
 }

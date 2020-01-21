@@ -19,6 +19,7 @@ namespace GameTracker_Agent
         private ICommand _addDirectoryCommand;
         private ICommand _exitProgramCommand;
         private ICommand _optionCommand;
+        private ICommand _sendCommand;
 
 
         public ObservableCollection<GameDirectoryDto> GameDirectories { get; set; }
@@ -26,7 +27,7 @@ namespace GameTracker_Agent
         private GameDirectoryDto selectedDirectory;
 
         private readonly BackgroundScanner scanner;
-        private readonly BackgroundTimer timer;
+        //private readonly BackgroundTimer timer;
 
 
         public GameDirectoryDto SelectedDirectory
@@ -41,6 +42,14 @@ namespace GameTracker_Agent
             get
             {
                 return Properties.Resources.ADD_DIRECTORY;
+            }
+        }
+
+        public string SendContent
+        {
+            get
+            {
+                return Properties.Resources.SEND;
             }
         }
 
@@ -64,6 +73,18 @@ namespace GameTracker_Agent
                 _addDirectoryCommand = value;
             }
         }
+        public ICommand SendCommand
+        {
+            get
+            {
+                return _sendCommand;
+            }
+            set
+            {
+                _sendCommand = value;
+            }
+        }
+
 
         public ICommand OptionCommand
         {
@@ -91,20 +112,25 @@ namespace GameTracker_Agent
 
         public MainWindowViewModel() : base()
         {
-            controller = new Controller();
             GameDirectories = new ObservableCollection<GameDirectoryDto>();
             AddDirectoryCommand = new RelayCommand(AddDirectory);
             ExitProgramCommand = new RelayCommand(ExitProgram);
             OptionCommand = new RelayCommand(OpenOptions);
+            SendCommand = new RelayCommand(SendGames);
             FillGameDirectories(controller.GetGameDirectories());
 
             if (GameDirectories.Count > 0)
             {
-                SelectedDirectory = GameDirectories.First();
+                SelectedDirectory = GameDirectories.First(); //just pick one
             }
             scanner = new BackgroundScanner(ScanComputer);
-            timer = new BackgroundTimer(scanner.StartWorker);
-            timer.Start();
+            //timer = new BackgroundTimer(scanner.StartWorker);
+            //timer.Start();
+        }
+
+        private void SendGames(object obj)
+        {
+            scanner.StartWorker();
         }
 
         public void AddDirectory(object obj)
@@ -129,7 +155,8 @@ namespace GameTracker_Agent
                     var gameDirectory = controller.GetGameDirectory(dlg.FileName);
                     var gameDirectoryDto = new GameDirectoryDto(gameDirectory.Directory, gameDirectory.GetGames());
                     GameDirectories.Add(gameDirectoryDto);
-                    selectedDirectory = GameDirectories.Last();
+                    
+                    SelectedDirectory = GameDirectories.Last(); //for showing the new inserted one
                     controller.SaveDevice();
                 }
             }
@@ -161,7 +188,7 @@ namespace GameTracker_Agent
 
         public void ExitProgram(object obj)
         {
-            timer.Stop(); 
+            //timer.Stop(); 
             Environment.Exit(Environment.ExitCode);
             controller.SaveDevice();
             Application.Current.Shutdown();

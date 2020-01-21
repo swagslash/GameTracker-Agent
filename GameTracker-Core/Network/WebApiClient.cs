@@ -8,19 +8,18 @@ namespace GameTracker_Core.Network
 {
     class WebApiClient
     {
-        private static readonly string URL = "http://localhost:8080";
 
         private static readonly HttpClient client = new HttpClient();
 
         static WebApiClient() {
-            client.BaseAddress = new Uri(URL);
             // Add an Accept header for JSON format.
             client.DefaultRequestHeaders.Accept.Add(
             new MediaTypeWithQualityHeaderValue("application/json"));
             }
 
-        public static HttpResponseMessage PostGamesToServer(string json, string token)
+        public static HttpResponseMessage PostGamesToServer(string json, string token, string url)
         {
+            client.BaseAddress = new Uri(url);
             var UrlParameters = "/api/agent/" + token;
             return PostToServer(json,UrlParameters);
         }

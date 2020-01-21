@@ -1,5 +1,4 @@
 ﻿using GameTracker_Core.Models;
-using GameTracker_Core.Models.Dto;
 using GameTracker_Core.Network;
 using System;
 using System.Collections.Generic;
@@ -14,8 +13,11 @@ namespace GameTracker_Core
         private static readonly string fileName = "device.bin";
         public Device Device { get; set; }
 
-        public Controller()
+        public string Url { get; set; }
+
+        public Controller(string url)
         {
+            this.Url = url;
             Device = new Device();
             Directory.CreateDirectory(appDataPath);
             if (File.Exists(Path.Combine(appDataPath, fileName)))
@@ -24,8 +26,9 @@ namespace GameTracker_Core
             }
         }
 
-        public Controller(string filePath)
+        public Controller(string filePath,string url)
         {
+            this.Url = url;
             Device = new Device();
             if (File.Exists(filePath))
             {
@@ -58,12 +61,12 @@ namespace GameTracker_Core
             if(!string.IsNullOrEmpty(Device.Token))
             {
                 IList<Game> games = Device.GetAllGames();
-                var gameDtos = ConvertGameIListToGameDtoList(games);
-                var json = Serializer.SerializeJson<List<GameDto>>(gameDtos);
+                //var gameDtos = ConvertGameIListToGameDtoList(games);
+                var json = Serializer.SerializeJson<IList<Game>>(games);
                 Console.WriteLine(json);
                 try
                 {
-                    var response = WebApiClient.PostGamesToServer(json, Device.Token);
+                    var response = WebApiClient.PostGamesToServer(json, Device.Token, Url);
                     //send
                     if (response.IsSuccessStatusCode)
                     {
@@ -79,17 +82,6 @@ namespace GameTracker_Core
                     Console.WriteLine("SendGames Error: {0}", e);
                 }
             }
-        }
-
-        private List<GameDto> ConvertGameIListToGameDtoList(IList<Game> games)
-        {
-            var gameDtos = new List<GameDto>();
-
-            foreach (Game g in games)
-            {
-                gameDtos.Add(new GameDto(g.Name, g.DirectoryPath));
-            }
-            return gameDtos;
         }
 
         public void AddGameDirectory(string path)

@@ -9,9 +9,9 @@ namespace GameTrackerConsole
     {
         static void Main()
         {
-                        Controller c = new Controller();
+            Controller c = new Controller("http://localhost:8080");
             c.ScanComputer();
-            c.SetToken("b9eebd97-6244-488a-88a8-1592de03cad7");
+            c.SetToken("b9eebd97-6244-488a-88a8-1592de03cad7"); //testing
             //Console.WriteLine(Serializer.SerializeJson<Device>(c._device));
             c.SendGames();
         }
