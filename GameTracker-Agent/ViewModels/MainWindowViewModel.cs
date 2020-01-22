@@ -197,7 +197,7 @@ namespace GameTracker_Agent
         public void OpenOptions(object obj)
         {
             OptionWindow optionWindow = new OptionWindow();
-            optionWindow.Show();
+            optionWindow.ShowDialog();
             Console.WriteLine("openOptions");
         }
 
