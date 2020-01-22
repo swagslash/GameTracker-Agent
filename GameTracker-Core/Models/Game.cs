@@ -11,10 +11,10 @@ namespace GameTracker_Core.Models
     [JsonObject(MemberSerialization.OptIn)]
     public class Game
     {
-        [JsonProperty("Name")]
+        [JsonProperty("gameName")]
         private string _name;
 
-        [JsonProperty("Directory")]
+        [JsonProperty("gamePath")]
         private string _directoryPath;
         
 
